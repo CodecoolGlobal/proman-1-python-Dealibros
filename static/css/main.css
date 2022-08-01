@@ -7,16 +7,16 @@
     background-color: green;
 }
 
-/*:root{*/
-/*    --border-radius: 3px;*/
-/*    --status-1: #590000;*/
-/*    --status-2: #594300;*/
-/*    --status-3: #525900;*/
-/*    --status-4: #085900;*/
-/*}*/
+body {
+    overflow: hidden;
+    padding:3rem;
+}
 
-body{
-    /*background: #ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png);*/
+.titleProject {
+    margin-bottom: 1.5rem;
+}
+
+.bodyProject {
     font-family: sans-serif;
     display: flex;
     align-items: center;
@@ -25,10 +25,12 @@ body{
 
 #root {
     background-color: #b9c2a8;
-    width: 80vw;
     height: 90vh;
-    margin-top: 3rem;
+    width: 80vw;
+    padding: 3rem;
+    border-radius: 0.4rem;
 }
+
 h1{
     text-align: center;
     font-size: 4em;
@@ -40,103 +42,20 @@ button{
     background: #cbb2b2;
     color: #fff;
     border: none;
-    font-size: 14px;
+    font-size: 20px;
     font-family: sans-serif;
-    padding: 4px 10px;
+    padding: 10px 10px;
+    border-radius: 0.4rem;
 }
 
-/*.board-container{*/
-/*    max-width: 960px;*/
-/*    margin: 0 auto;*/
-/*}*/
+.board-container {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #dcd8d8;
+    border-radius: 0.4rem;
+    text-align: center;
+}
 
-/*section.board{*/
-/*    margin: 20px;*/
-/*    border: aliceblue;*/
-/*    background: #ffffff90;*/
-/*    border-radius: 3px;*/
-/*}*/
-
-/*.board-header{*/
-/*    height: 50px;*/
-/*    background: #fff;*/
-/*    border-radius: var(--border-radius) var(--border-radius) 0 0;*/
-/*}*/
-
-/*.board-title{*/
-/*    margin: 13px;*/
-/*    display: inline-block;*/
-/*    font-size: 20px;*/
-/*}*/
-/*.board-title, .board-add, .board-toggle{*/
-/*    display: inline-block;*/
-/*}*/
-
-/*.board-toggle{*/
-/*    float: right;*/
-/*    margin: 13px;*/
-/*}*/
-
-/*.board-columns{*/
-/*    display: flex;*/
-/*    flex-wrap: nowrap;*/
-/*}*/
-
-/*.board-column{*/
-/*    padding: 10px;*/
-/*    flex: 1;*/
-/*}*/
-
-/*.board-column-content{*/
-/*    min-height: 49px;*/
-/*}*/
-
-/*.board-column-content:empty{*/
-/*    !*This only works if the tag is really empty and there is not even whitespace inside*!*/
-/*    border: 4px solid #cdcdcd;*/
-/*    margin-top: 4px;*/
-/*    border-radius: 10px;*/
-/*    background: #eee;*/
-/*}*/
-
-/*.board-column-title{*/
-/*    text-align: center;*/
-/*}*/
-
-/*.card{*/
-/*    position: relative;*/
-/*    background: #222;*/
-/*    color: #fff;*/
-/*    border-radius: var(--border-radius);*/
-/*    margin: 4px 0;*/
-/*    padding: 4px;*/
-/*}*/
-
-/*.board-column:nth-of-type(1) .card{*/
-/*    background: var(--status-1);*/
-/*}*/
-
-/*.board-column:nth-of-type(2) .card{*/
-/*    background: var(--status-2);*/
-/*}*/
-
-/*.board-column:nth-of-type(3) .card{*/
-/*    background: var(--status-3);*/
-/*}*/
-
-/*.board-column:nth-of-type(4) .card{*/
-/*    background: var(--status-4);*/
-/*}*/
-
-/*.card-remove{*/
-/*    display: block;*/
-/*    position: absolute;*/
-/*    top: 4px;*/
-/*    right: 4px;*/
-/*    font-size: 12px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.card-title{*/
-/*    padding-right: 16px;*/
-/*}*/
+.boardForm {
+    text-align: right;
+}

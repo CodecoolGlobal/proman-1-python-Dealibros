@@ -31,10 +31,6 @@ def get_boards():
 
 
 def get_cards_for_board(board_id):
-<<<<<<< HEAD
-
-=======
->>>>>>> 957341759e02e2cc4d1f71576c94d89f207d3816
     matching_cards = data_manager.execute_select(
         """
         SELECT * FROM cards

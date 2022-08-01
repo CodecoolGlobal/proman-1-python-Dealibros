@@ -12,13 +12,18 @@
         <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
 
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+{#        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">#}
         <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     </head>
     <body>
-        <div class="boardForm">
+
+     <h1 class="titleProject"> ProMan</h1>
+     <div class="bodyProject">
+        <div id="root">
+            <div class="boardForm">
         <button class="createBoard">Create New Board</button>
         </div>
-        <div id="root"></div>
+        </div>
+     </div>
     </body>
 </html>
