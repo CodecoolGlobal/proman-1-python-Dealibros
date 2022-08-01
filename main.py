@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, make_response, jsonify
 from dotenv import load_dotenv
 from util import json_response
 import mimetypes
@@ -40,7 +40,12 @@ def get_cards_for_board(board_id: int):
 @app.route('/api/boards/createBoard', methods=['POST'])
 def create_new_board():
     board = request.get_json()
-    queries.create_new_board(board.get('title'))
+    added_board = queries.create_new_board(board.get('title'))
+    if added_board:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
 
 
 def main():
