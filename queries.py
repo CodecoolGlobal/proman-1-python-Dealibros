@@ -44,7 +44,8 @@ def get_cards_for_board(board_id):
 def create_new_board(title):
     data_manager.execute_insert(
         """
-        INSERT INTO boards
+        INSERT INTO boards(title)
         VALUES (%(title)s)
         ;
         """, {"title": title})
+    return True

@@ -18,6 +18,10 @@ export let boardsManager = {
             );
         }
     },
+    clearBoards: function () {
+        let root = document.querySelector('#root');
+        [...root.children].forEach((child)=>root.removeChild(child));
+    }
 };
 
 function showHideButtonHandler(clickEvent) {
@@ -30,10 +34,11 @@ function showBoardForm() {
     const newBoardForm = htmlFactory(htmlTemplates.form);
     domManager.addChild(".boardForm", newBoardForm());
     domManager.addEventListener(".formBuilderButton", 'click', () => {
-        console.log("Yup2");
         console.log(document.querySelector('#title').value)
         dataHandler.createNewBoard(document.querySelector('#title').value);
-        console.log("Yup3");
+        boardsManager.clearBoards();
+        boardsManager.loadBoards();
+        let form = document.querySelector('.titleForm');
+        form.parentElement.removeChild(form);
     })
-    console.log("Yup4");
 }

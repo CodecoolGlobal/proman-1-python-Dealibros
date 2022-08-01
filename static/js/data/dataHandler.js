@@ -19,7 +19,6 @@ export let dataHandler = {
     },
     createNewBoard: async function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
-        console.log('creating New fucking board js');
         return await apiPost(window.origin+'/api/boards/createBoard', {'title': boardTitle});
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
@@ -37,7 +36,6 @@ async function apiGet(url) {
 }
 
 async function apiPost(url, payload) {
-    console.log("Post API")
     fetch((url), {
         method: 'POST',
         credentials: 'include',

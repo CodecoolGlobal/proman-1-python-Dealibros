@@ -33,9 +33,10 @@ function cardBuilder(card) {
 }
 
 function formBuilder() {
-    return `<form>
+    return `    <div class="titleForm">
                 <label for="title">Title: </label>
                 <input name="title" id="title" type="text" placeholder="Title" value="unnamed" required>
                 <button class="formBuilderButton" type="submit">Save</button>
-            </form>` ;
+                </div>
+            ` ;
 }
