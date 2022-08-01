@@ -48,6 +48,17 @@ def create_new_board():
     return response
 
 
+@app.route('/api/boards/<int:board_id>/update', methods=['PATCH'])
+def update_board_title(board_id):
+    board = request.get_json()
+    update_board = queries.update_board_title(board.get('title'))
+    if update_board:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
 def main():
     app.run(debug=True)
 
