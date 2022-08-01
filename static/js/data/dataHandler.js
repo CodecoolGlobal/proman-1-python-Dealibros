@@ -19,7 +19,10 @@ export let dataHandler = {
     },
     createNewBoard: async function (boardTitle) {
         // creates new board, saves it and calls the callback function with its data
-        return await apiPost(window.origin+'/api/boards/createBoard', {'title': boardTitle});
+        return await apiPost(window.origin + '/api/boards/createBoard', { title: boardTitle });
+    },
+    updateBoardTitle: async function(boardTitle, boardId) {
+        return await apiPatch('/api/boards/<int:board_id>/update', { title: boardTitle, board_id: boardId });
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
@@ -46,7 +49,7 @@ async function apiPost(url, payload) {
         })
     })
         .then(() => { if (response.ok) return 'ok' })
-        .catch((err)=>{return err})
+        .catch((err) => { return err })
 }
 
 async function apiDelete(url) {
@@ -55,5 +58,16 @@ async function apiDelete(url) {
 async function apiPut(url) {
 }
 
-async function apiPatch(url) {
+async function apiPatch(url, payload) {
+    fetch((url), {
+        method: 'PATCH',
+        credentials: 'include',
+        body: JSON.stringify(payload),
+        cache: 'no-cache',
+        headers: new Headers({
+            'content-type': 'application/json'
+        })
+    })
+        .then(() => { if (response.ok) return 'ok' })
+        .catch((err) => { return err })
 }

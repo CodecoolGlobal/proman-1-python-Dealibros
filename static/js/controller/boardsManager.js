@@ -32,14 +32,13 @@ function showHideButtonHandler(clickEvent) {
 
 
 function showBoardForm() {
-    const newBoardForm = htmlFactory(htmlTemplates.form);
-    domManager.addChild(".boardForm", newBoardForm());
-    domManager.addEventListener(".formBuilderButton", 'click', () => {
-        console.log(document.querySelector('#title').value)
+    // const newBoardForm = htmlFactory(htmlTemplates.form);
+    // domManager.addChild(".boardForm", newBoardForm());
+    document.querySelector('.titleForm').style.visibility = 'visible';
+    domManager.addEventListener(".createBoardButton", 'click', () => {
         dataHandler.createNewBoard(document.querySelector('#title').value);
         boardsManager.clearBoards();
         boardsManager.loadBoards();
-        let form = document.querySelector('.titleForm');
-        form.parentElement.removeChild(form);
+        document.querySelector('.titleForm').style.visibility = 'hidden';
     })
 }
