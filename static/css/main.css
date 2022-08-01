@@ -22,12 +22,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #b9c2a8;
+    margin-right: 0;
+    margin-left: 0;
+    height: 90vh;
+    width: 70vw;
+    padding: 3rem;
+    border-radius: 0.4rem;
 }
 
 #root {
     background-color: #b9c2a8;
     height: 90vh;
-    width: 80vw;
+    width: 70vw;
     padding: 3rem;
     border-radius: 0.4rem;
 }
