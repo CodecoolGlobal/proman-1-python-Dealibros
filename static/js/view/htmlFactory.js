@@ -28,6 +28,8 @@ function boardBuilder(board) {
                     <input type="text" value="${board.title}" >
                     <button class="edit-board" data-board-id="${board.id}">Save</button>
                 </div>
+                <div class="bodyboard"><div class="column"><h4>New</h4></div><div class="column"><h4>In progress</h4></div><div class="column"><h4>Testing</h4></div><div class="column"><h4>Done</h4></div></div>
+                <button class="edit-board" data-board-id="${board.id}">Edit</button>
                 <button class="delete-board" data-board-id="${board.id}">Delete</button>
                 <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
             </div>`;

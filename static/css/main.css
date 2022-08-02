@@ -96,3 +96,26 @@ button{
     padding: 0.4rem;
     border-radius: 0.4rem;
 }
+
+.bodyboard {
+    display: flex;
+    flex-direction: row;
+    background-color: #eedbdb;
+    align-items: center;
+    justify-content: center;
+    padding-right: 3rem;
+    padding-left: 3rem;
+
+
+}
+
+.column {
+  background: #c9c693;
+  height: 6rem;
+  width: 60%;
+  margin: 1rem;
+  border-radius: 0.4rem;
+
+
+
+}
