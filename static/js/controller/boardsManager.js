@@ -15,6 +15,8 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            // add columns
+            let columns = await dataHandler.getColumns(board.id);
         }
     },
     clearBoards: function () {

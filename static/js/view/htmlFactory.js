@@ -6,7 +6,7 @@ export const htmlTemplates = {
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
     [htmlTemplates.card]: cardBuilder,
-    [htmlTemplates.form]: formBuilder
+    [htmlTemplates.column]: columnBuilder
 };
 
 export function htmlFactory(template) {
@@ -31,15 +31,11 @@ function boardBuilder(board) {
             </div>`;
 }
 
-function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+
+function columnBuilder(column) {
+    return `<div class="column" data-column-id="${column.id}"><h4>New</h4></div>`
 }
 
-function formBuilder() {
-    return `    <div class="titleForm">
-                <label for="title">Title: </label>
-                <input name="title" id="title" type="text" placeholder="Title" value="unnamed" required>
-                <button class="formBuilderButton" type="submit">Save</button>
-                </div>
-            ` ;
+function cardBuilder(card) {
+    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
 }
