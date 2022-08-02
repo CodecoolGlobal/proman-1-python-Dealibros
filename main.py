@@ -84,7 +84,7 @@ def delete_board(board_id):
     return response
 
 
-@app.route("/api/columns")
+@app.route("/api/columns/")
 @json_response
 def get_columns():
     """

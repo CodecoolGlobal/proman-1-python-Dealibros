@@ -40,8 +40,6 @@ async function apiGet(url) {
     });
     if (response.ok) {
         return await response.json();
-    } else {
-        console.log("wrong")
     }
 }
 

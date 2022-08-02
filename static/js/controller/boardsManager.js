@@ -6,8 +6,6 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        const columns = await dataHandler.getStatuses();
-        console.log(columns)
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -17,9 +15,14 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
-            // add columns
-            // let columns = await dataHandler.getStatuses(board.id);
+             }
+             const columns = await dataHandler.getStatuses();
+             for (let column of columns) {
+                 const columnBuilder = htmlFactory(htmlTemplates.column);
+                 const content = columnBuilder(column);
+                 domManager.addChildtoParents(".bodyboard", content); //I think is adding to only one .bodyboard?
         }
+
     },
     clearBoards: function () {
         let root = document.querySelector('#root');
