@@ -39,6 +39,15 @@ def get_columns():
     )
 
 
+def insert_created_columns(board_id, status_id):
+    data_manager.execute_query(
+        """
+        INSERT INTO statuses_to_boards(board_id, status_id)
+        VALUES (%(board_id)s, %(status_id)s)
+        ;
+        """, {"board_id": board_id, 'status_id': status_id})
+
+
 def get_columns_for_board(board_id):
     return data_manager.execute_select(
         """

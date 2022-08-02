@@ -93,6 +93,7 @@ def get_columns():
     return queries.get_columns()
 
 
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':

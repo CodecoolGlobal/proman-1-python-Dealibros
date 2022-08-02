@@ -15,7 +15,9 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            console.log(board.id)
              }
+
         //Create a new function? To cretae 4 columns here?
         // getStatuses should maybe be called createStatuses?
              const columns = await dataHandler.getStatuses();
@@ -23,10 +25,14 @@ export let boardsManager = {
                  const columnBuilder = htmlFactory(htmlTemplates.column);
                  const content = columnBuilder(column);
                  domManager.addChildtoParents(".bodyboard", content); //I think is adding to only one .bodyboard?
+                 console.log(content)
 
+                 //insert into table board.id and board-statuses here?
+                 //It should not save only the status id -  but maybe the statuses title
         }
 
     },
+
     clearBoards: function () {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
