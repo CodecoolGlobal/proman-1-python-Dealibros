@@ -97,19 +97,25 @@ button{
     border-radius: 0.4rem;
 }
 
-.bodyBoard {
+.bodyboard {
     display: flex;
     flex-direction: row;
+    background-color: #eedbdb;
     align-items: center;
     justify-content: center;
-    background-color: red;
-    height: 10rem;
-    width: 10rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+
 
 }
 
 .column {
-    background-color: #590000;
-    height: 5rem;
-    width: 5rem;
+  background: #c9c693;
+  height: 6rem;
+  width: 60%;
+  margin: 1rem;
+  border-radius: 0.4rem;
+
+
+
 }
