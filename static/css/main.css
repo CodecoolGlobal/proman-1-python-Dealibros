@@ -19,13 +19,14 @@ body {
 
 .bodyProject {
     font-family: sans-serif;
+    width: 80vw;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     background-color: #b9c2a8;
-    margin-right: 0;
-    margin-left: 0;
+    margin-right: auto;
+    margin-left: auto;
     margin-bottom: 3rem;
     border-radius: 0.4rem;
     overflow: auto;
@@ -42,7 +43,6 @@ body {
 
 #root {
     background-color: #b9c2a8;
-    height: 90vh;
     width: 70vw;
     padding: 0 3rem;
     border-radius: 0.4rem;

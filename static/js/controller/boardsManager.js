@@ -7,7 +7,7 @@ export let boardsManager = {
     loadBoards: async function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm)
         const boards = await dataHandler.getBoards();
-        console.log("boards", boards)
+        console.log("boards in loadBoards", boards) //This is not updated on time
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
