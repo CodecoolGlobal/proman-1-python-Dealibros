@@ -17,13 +17,14 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            // add columns
+            // let columns = await dataHandler.getStatuses(board.id);
         }
     },
     clearBoards: function () {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
     },
-
     addEventListeners: function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
@@ -36,7 +37,6 @@ export let boardsManager = {
                 // add eventListener to save button here
             }, 2000
         )
-
     }
 };
 
@@ -58,9 +58,7 @@ async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';
 }
 
-
 function saveEdit(event) {
     const button = event.target.nextElementSibling;
     button.style.display = "inline";
 }
-

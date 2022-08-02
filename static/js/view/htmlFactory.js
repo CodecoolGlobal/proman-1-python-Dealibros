@@ -32,19 +32,12 @@ function boardBuilder(board) {
 }
 
 
-function formBuilder() {
-    return `    <div class="titleForm">
-                <label for="title">Title: </label>
-                <input name="title" id="title" type="text" placeholder="Title" value="unnamed" required>
-                <button class="formBuilderButton" type="submit">Save</button>
-                </div>
-            ` ;
+function columnBuilder(column) {
+    return `<div class="column" data-column-id="${column.id}"><h4>New</h4></div>`
 }
 
-function columnBuilder(column) {
-    return `<div class="column" data-column-id="${column.id}"> <h4>New</h4></div>`
-}
 
 function cardBuilder(card) {
     return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
 }
+

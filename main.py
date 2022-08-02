@@ -87,6 +87,9 @@ def delete_board(board_id):
 @app.route("/api/columns")
 @json_response
 def get_columns():
+    """
+    All the statuses
+    """
     return queries.get_columns()
 
 
