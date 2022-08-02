@@ -7,6 +7,7 @@ export let dataHandler = {
 
     },
     getStatuses: async function () {
+        return await apiGet("/api/columns");
         // the statuses are retrieved and then the callback function is called with the statuses
     },
     getStatus: async function (statusId) {

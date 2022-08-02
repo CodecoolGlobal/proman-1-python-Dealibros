@@ -6,7 +6,7 @@ export const htmlTemplates = {
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
     [htmlTemplates.card]: cardBuilder,
-    [htmlTemplates.form]: formBuilder
+    [htmlTemplates.column]: columnBuilder
 };
 
 export function htmlFactory(template) {
@@ -46,4 +46,8 @@ function formBuilder() {
                 <button class="formBuilderButton" type="submit">Save</button>
                 </div>
             ` ;
+}
+
+function columnBuilder(column) {
+    return `<div class="column" data-column-id="${column.id}"> <h4>New</h4></div>`
 }

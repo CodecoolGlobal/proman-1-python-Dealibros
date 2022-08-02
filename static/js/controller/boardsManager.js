@@ -6,7 +6,9 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        console.log(boards);
+        console.log(boards)
+        const columns = await dataHandler.getStatuses();
+        console.log(columns)
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -22,12 +24,12 @@ export let boardsManager = {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
     },
+
     addEventListeners: async function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
             await createNewBoard();
-        })
-        document.querySelectorAll('.title').forEach((child) => { child.onclick =  showEditForm });
+        });
     }
 };
 

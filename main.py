@@ -84,6 +84,13 @@ def delete_board(board_id):
     return response
 
 
+@app.route('/api/columns')
+@json_response
+def get_columns():
+    print(queries.get_columns())
+    return render_template("index.html")
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
