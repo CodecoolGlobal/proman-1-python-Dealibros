@@ -33,7 +33,6 @@ export let boardsManager = {
         setTimeout(
             () => {
                 const boards = document.querySelectorAll('.board');
-                console.log(boards);
                 boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event) ))
                 // add eventListener to save button here
             }, 2000
