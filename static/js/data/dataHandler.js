@@ -4,6 +4,7 @@ export let dataHandler = {
     },
     getBoard: async function (boardId) {
         // the board is retrieved and then the callback function is called with the board
+        
     },
     getStatuses: async function () {
         // the statuses are retrieved and then the callback function is called with the statuses
@@ -22,7 +23,10 @@ export let dataHandler = {
         return await apiPost(window.origin + '/api/boards/createBoard', { title: boardTitle });
     },
     updateBoardTitle: async function(boardTitle, boardId) {
-        return await apiPatch('/api/boards/<int:board_id>/update', { title: boardTitle, board_id: boardId });
+        return await apiPatch(`/api/boards/${boardId}/update`, { title: boardTitle, board_id: boardId });
+    },
+    deleteBoard: async function(boardTitle, boardId) {
+        return await apiDelete(`/api/boards/${boardId}/delete`, { board_id: boardId });
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
@@ -53,9 +57,25 @@ async function apiPost(url, payload) {
 }
 
 async function apiDelete(url) {
+    fetch((url), {
+        method: 'DELETE'
+    })
+        .then(() => { if (response.ok) return 'ok' })
+        .catch((err) => { return err })
 }
 
 async function apiPut(url) {
+    fetch((url), {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify(payload),
+        cache: 'no-cache',
+        headers: new Headers({
+            'content-type': 'application/json'
+        })
+    })
+        .then(() => { if (response.ok) return 'ok' })
+        .catch((err) => { return err })
 }
 
 async function apiPatch(url, payload) {

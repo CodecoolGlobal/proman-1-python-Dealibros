@@ -7,6 +7,7 @@ export let boardsManager = {
     loadBoards: async function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm)
         const boards = await dataHandler.getBoards();
+        console.log(boards);
         console.log("boards", boards)
         for (let board of boards) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
@@ -32,13 +33,12 @@ function showHideButtonHandler(clickEvent) {
 
 
 function showBoardForm() {
-    // const newBoardForm = htmlFactory(htmlTemplates.form);
-    // domManager.addChild(".boardForm", newBoardForm());
     document.querySelector('.titleForm').style.visibility = 'visible';
     domManager.addEventListener(".createBoardButton", 'click', () => {
-        dataHandler.createNewBoard(document.querySelector('#title').value);
-        boardsManager.clearBoards();
-        boardsManager.loadBoards();
         document.querySelector('.titleForm').style.visibility = 'hidden';
+        let title = document.querySelector('#title')
+        dataHandler.createNewBoard(title.value)
+        .then(()=> {boardsManager.clearBoards(); title.value = '';})
+        .then(() => boardsManager.loadBoards())
     })
 }

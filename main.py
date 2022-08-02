@@ -51,7 +51,7 @@ def create_new_board():
 @app.route('/api/boards/<int:board_id>/update', methods=['PATCH'])
 def update_board_title(board_id):
     board = request.get_json()
-    update_board = queries.update_board_title(board.get('title'))
+    update_board = queries.update_board_title(board.get('title'), board_id)
     if update_board:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:

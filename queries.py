@@ -42,7 +42,7 @@ def get_cards_for_board(board_id):
 
 
 def create_new_board(title):
-    data_manager.execute_insert(
+    data_manager.execute_query(
         """
         INSERT INTO boards(title)
         VALUES (%(title)s)
