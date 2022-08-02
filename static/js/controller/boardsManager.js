@@ -16,11 +16,14 @@ export let boardsManager = {
                 showHideButtonHandler
             );
              }
+        //Create a new function? To cretae 4 columns here?
+        // getStatuses should maybe be called createStatuses?
              const columns = await dataHandler.getStatuses();
              for (let column of columns) {
                  const columnBuilder = htmlFactory(htmlTemplates.column);
                  const content = columnBuilder(column);
                  domManager.addChildtoParents(".bodyboard", content); //I think is adding to only one .bodyboard?
+
         }
 
     },
@@ -47,6 +50,7 @@ async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
     let title = document.querySelector('#title');
     await dataHandler.createNewBoard(title.value);
+
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
 }

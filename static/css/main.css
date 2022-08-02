@@ -97,25 +97,34 @@ button{
     border-radius: 0.4rem;
 }
 
+.board {
+   font-family: sans-serif;
+   font-size: 1.8rem;
+   font-weight: 700;
+}
+
 .bodyboard {
     display: flex;
     flex-direction: row;
     background-color: #eedbdb;
     align-items: center;
     justify-content: center;
-    padding-right: 3rem;
-    padding-left: 3rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
 
 
 }
 
 .column {
   background: #c9c693;
-  height: 6rem;
-  width: 60%;
-  margin: 1rem;
-  border-radius: 0.4rem;
+  height: 15rem;
+  width: 80%;
+  margin: 0.7rem;
+  border-radius: 0.3rem;
+}
 
-
-
+.columnTitle {
+    background-color: #afbb96;
+    font-size: 1.2rem;
+    padding: 0.9rem;
 }
