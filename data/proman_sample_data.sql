@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
 DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS statuses_to_boards;
 
 ---
 --- create tables

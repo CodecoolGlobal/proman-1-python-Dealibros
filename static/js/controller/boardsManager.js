@@ -6,12 +6,8 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-<<<<<<< HEAD
-        console.log(boards)
         const columns = await dataHandler.getStatuses();
         console.log(columns)
-=======
->>>>>>> e9623fd21b89dad5c497485f2f0e1890d0b15dcf
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -27,14 +23,7 @@ export let boardsManager = {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
     },
-<<<<<<< HEAD
 
-    addEventListeners: async function () {
-        domManager.addEventListener('.createBoard', 'click', showBoardForm);
-        domManager.addEventListener(".createBoardButton", 'click', async () => {
-            await createNewBoard();
-        });
-=======
     addEventListeners: function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
@@ -43,12 +32,11 @@ export let boardsManager = {
         setTimeout(
             () => {
                 const boards = document.querySelectorAll('.board');
-                console.log(boards);
                 boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event) ))
                 // add eventListener to save button here
             }, 2000
         )
->>>>>>> e9623fd21b89dad5c497485f2f0e1890d0b15dcf
+
     }
 };
 
@@ -70,14 +58,9 @@ async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';
 }
 
-<<<<<<< HEAD
-function showEditForm(event) {
-    console.log('bla')
-    console.log(event.target.dataset);
-}
-=======
+
 function saveEdit(event) {
     const button = event.target.nextElementSibling;
     button.style.display = "inline";
 }
->>>>>>> e9623fd21b89dad5c497485f2f0e1890d0b15dcf
+

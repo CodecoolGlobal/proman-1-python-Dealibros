@@ -31,9 +31,6 @@ function boardBuilder(board) {
             </div>`;
 }
 
-function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
-}
 
 function formBuilder() {
     return `    <div class="titleForm">
@@ -46,4 +43,8 @@ function formBuilder() {
 
 function columnBuilder(column) {
     return `<div class="column" data-column-id="${column.id}"> <h4>New</h4></div>`
+}
+
+function cardBuilder(card) {
+    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
 }

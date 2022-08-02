@@ -84,11 +84,10 @@ def delete_board(board_id):
     return response
 
 
-@app.route('/api/columns')
+@app.route("/api/columns")
 @json_response
 def get_columns():
-    print(queries.get_columns())
-    return render_template("index.html")
+    return queries.get_columns()
 
 
 @app.route('/login', methods=['POST', 'GET'])
