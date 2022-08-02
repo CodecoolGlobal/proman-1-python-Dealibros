@@ -1,11 +1,10 @@
-import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
-import {domManager} from "../view/domManager.js";
-import {cardsManager} from "./cardsManager.js";
+import { dataHandler } from "../data/dataHandler.js";
+import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
+import { domManager } from "../view/domManager.js";
+import { cardsManager } from "./cardsManager.js";
 
 export let boardsManager = {
     loadBoards: async function () {
-        domManager.addEventListener('.createBoard', 'click', showBoardForm)
         const boards = await dataHandler.getBoards();
         console.log(boards);
         for (let board of boards.reverse()) {
@@ -21,9 +20,23 @@ export let boardsManager = {
     },
     clearBoards: function () {
         let root = document.querySelector('#root');
-        [...root.children].forEach((child)=>root.removeChild(child));
+        [...root.children].forEach((child) => root.removeChild(child));
+    },
+    addEventListeners: async function() {
+        domManager.addEventListener('.createBoard', 'click', showBoardForm);
+        domManager.addEventListener(".createBoardButton", 'click', async () => {
+            await createNewBoard();
+        })
     }
 };
+
+async function createNewBoard() {
+    document.querySelector('.titleForm').style.visibility = 'hidden';
+    let title = document.querySelector('#title');
+    await dataHandler.createNewBoard(title.value);
+    boardsManager.clearBoards();
+    await boardsManager.loadBoards();
+}
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
@@ -31,13 +44,7 @@ function showHideButtonHandler(clickEvent) {
 }
 
 
-function showBoardForm() {
+async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';
-    domManager.addEventListener(".createBoardButton", 'click', () => {
-        document.querySelector('.titleForm').style.visibility = 'hidden';
-        let title = document.querySelector('#title')
-        dataHandler.createNewBoard(title.value)
-        .then(() => boardsManager.clearBoards())
-        .then(() => boardsManager.loadBoards())
-    })
 }
+
