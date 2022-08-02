@@ -6,6 +6,8 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
+        const columns = await dataHandler.getStatuses();
+        console.log(columns)
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -16,7 +18,7 @@ export let boardsManager = {
                 showHideButtonHandler
             );
             // add columns
-            let columns = await dataHandler.getColumns(board.id);
+            // let columns = await dataHandler.getStatuses(board.id);
         }
     },
     clearBoards: function () {

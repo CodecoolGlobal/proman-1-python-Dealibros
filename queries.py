@@ -30,6 +30,15 @@ def get_boards():
     )
 
 
+def get_columns():
+    return data_manager.execute_select(
+        """
+        SELECT * FROM statuses
+        ;
+        """
+    )
+
+
 def get_cards_for_board(board_id):
     matching_cards = data_manager.execute_select(
         """
