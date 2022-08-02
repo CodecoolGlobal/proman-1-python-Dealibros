@@ -6,7 +6,6 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        console.log(boards);
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -22,12 +21,19 @@ export let boardsManager = {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
     },
-    addEventListeners: async function () {
+    addEventListeners: function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
             await createNewBoard();
         })
-        document.querySelectorAll('.title').forEach((child) => { child.onclick =  showEditForm });
+        setTimeout(
+            () => {
+                const boards = document.querySelectorAll('.board');
+                console.log(boards);
+                boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event) ))
+                // add eventListener to save button here
+            }, 2000
+        )
     }
 };
 
@@ -49,7 +55,7 @@ async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';
 }
 
-function showEditForm(event) {
-    console.log('bla')
-    console.log(event.target.dataset);
+function saveEdit(event) {
+    const button = event.target.nextElementSibling;
+    button.style.display = "inline";
 }

@@ -23,13 +23,9 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <div class="board title" data-board-id=${board.id}>${board.title}</div>
-                <div style="display: none;">
-                    <input type="text" value="${board.title}" >
-                    <button class="edit-board" data-board-id="${board.id}">Save</button>
-                </div>
+                <div class="board" data-board-id=${board.id} contentEditable="true">${board.title}</div>
+                    <button class="edit-board" style="display: none;" data-board-id="${board.id}">Save</button>
                 <div class="bodyboard"><div class="column"><h4>New</h4></div><div class="column"><h4>In progress</h4></div><div class="column"><h4>Testing</h4></div><div class="column"><h4>Done</h4></div></div>
-                <button class="edit-board" data-board-id="${board.id}">Edit</button>
                 <button class="delete-board" data-board-id="${board.id}">Delete</button>
                 <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
             </div>`;
