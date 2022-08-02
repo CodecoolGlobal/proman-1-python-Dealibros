@@ -7,8 +7,8 @@ export let boardsManager = {
     loadBoards: async function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm)
         const boards = await dataHandler.getBoards();
-        console.log('boards');
-        for (let board of boards) {
+        console.log(boards);
+        for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
@@ -37,7 +37,7 @@ function showBoardForm() {
         document.querySelector('.titleForm').style.visibility = 'hidden';
         let title = document.querySelector('#title')
         dataHandler.createNewBoard(title.value)
-        .then(()=> {boardsManager.clearBoards(); title.value = '';})
+        .then(() => boardsManager.clearBoards())
         .then(() => boardsManager.loadBoards())
     })
 }
