@@ -22,11 +22,12 @@ export let boardsManager = {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
     },
-    addEventListeners: async function() {
+    addEventListeners: async function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
             await createNewBoard();
         })
+        document.querySelectorAll('.title').forEach((child) => { child.onclick =  showEditForm });
     }
 };
 
@@ -48,3 +49,7 @@ async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';
 }
 
+function showEditForm(event) {
+    console.log('bla')
+    console.log(event.target.dataset);
+}
