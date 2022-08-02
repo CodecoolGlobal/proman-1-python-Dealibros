@@ -19,18 +19,37 @@ body {
 
 .bodyProject {
     font-family: sans-serif;
+    width: 80vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    background-color: #b9c2a8;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 3rem;
+    border-radius: 0.4rem;
+    overflow: auto;
+    height: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+
+}
+
+.bodyProject::-webkit-scrollbar {
+     display: none;
 }
 
 #root {
     background-color: #b9c2a8;
-    height: 90vh;
-    width: 80vw;
-    padding: 3rem;
+    width: 70vw;
+    padding: 0 3rem;
     border-radius: 0.4rem;
+    padding-bottom: 3rem;
 }
+
+/*.board-container:last-child {margin-bottom: 6rem;}*/
 
 h1{
     text-align: center;
@@ -51,7 +70,8 @@ button{
 }
 
 .board-container {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
     padding: 1rem;
     background-color: #dcd8d8;
     border-radius: 0.4rem;
@@ -59,5 +79,20 @@ button{
 }
 
 .boardForm {
-    text-align: right;
+    width: 100%;
+    text-align: left;
+    padding-top: 2rem;
+    padding-left: 2rem;
+
+}
+
+.titleForm {
+    display: inline ;
+    margin-left: 1rem;
+}
+
+.titleForm input {
+    font-size: 1.2rem;
+    padding: 0.4rem;
+    border-radius: 0.4rem;
 }
