@@ -7,7 +7,6 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        console.log(boards)
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
@@ -17,42 +16,21 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+
+
             for (let column of board.columns) {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
+                domManager.addEventListener(
+                `.createColumnButton[data-board-board_id="${board.board_id}"]`,
+                "click",
+                function(){
+                    let title = "Unnamed"
+                    createNewColumn(title, board.board_id)
+                }
+            )
             }
-        }
-
-        // getStatuses should maybe be called createStatuses?
-        const columns = await dataHandler.getStatuses()
-
-        for (let column of columns) {
-            const columnBuilder = htmlFactory(htmlTemplates.column);
-            const content = columnBuilder(column);
-            domManager.addChildtoParents(".bodyboard", content);
-
-
-
-            // document.querySelectorAll(".bodyboard").forEach(function(single){
-            //     let bodyBoard = single.parentElement.firstElementChild.getAttribute('data-board-id')
-            //     console.log(bodyBoard)
-            // })
-
-            //insert into both tables board.id and board-statuses here?
-            //Need statuses_id or id, title, board_id
-            //statuses_id or id = column.id
-            //title = column_title
-            //board_id = ?
-
-            domManager.addEventListener(
-            `.createColumnButton[data-board-id="${column.id}]"]`,
-                //column.id Needs to be changed for board_id?
-            "click",
-            //need to create a proper eventHandler here
-            createNewColumn()
-
-        );
         }
     },
 
@@ -64,19 +42,11 @@ export let boardsManager = {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
             await createNewBoard();
-
-            // Should the create column create Event listener be added here instead?
-            // domManager.addEventListener(".createColumnButton", 'click', async () => {
-            //     console.log("First check")
-            //     await createNewColumn();
-            // })
-
         })
         setTimeout(
             () => {
                 const boards = document.querySelectorAll('.board');
                 boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
-                boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
                 ))
@@ -84,6 +54,9 @@ export let boardsManager = {
         )
     }
 };
+
+
+// Create Board - Column - Card
 
 async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
@@ -95,25 +68,18 @@ async function createNewBoard() {
 }
 
 
-// Working on how to add a new column
-function createNewColumn(clickEvent) {
+async function createNewColumn(title, board_id) {
     console.log("I am being clicked")
-    // console.log(boardId)
-    // dataHandler.createNewColumn()
-
-
-    // Create just by inserting by javascript the HTML Through the DOM?
-    // insert into database (2 of them?) the info from this new column created
-    // Take the ids already existing in this table and add plus one
-    //The other existing four columns should be added already in the database for this
-
+    await dataHandler.createNewColumn(title, board_id)
+    // boardsManager.clearBoards();
+    // await boardsManager.loadBoards();
 }
+
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
     cardsManager.loadCards(boardId);
 }
-
 
 async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';

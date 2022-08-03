@@ -54,6 +54,17 @@ def create_new_board():
     return response
 
 
+@app.route('/api/columns/create_new_column', methods=['POST'])
+def create_new_column(title, board_id):
+    column = request.get_json()
+    create_new_column = queries.create_new_column(column.get(title, board_id))
+    if create_new_column:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
 @app.route('/api/boards/<int:board_id>/edit', methods=['PATCH'])
 def edit_board_title(board_id):
     board = request.get_json()

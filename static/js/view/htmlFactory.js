@@ -39,7 +39,3 @@ function cardBuilder(card) {
 function columnBuilder(column) {
     return `<div class="column" data-column-id="${column.id}"><h4 class="columnTitle">${column.title}<hr/></h4></div>`
 }
-
-
-
-

@@ -118,6 +118,15 @@ def update_board(board_id, user_id=None):
     return True
 
 
+def create_new_column(title, board_id):
+    data_manager.execute_query(
+        """
+        INSERT INTO columns(title, board_id)
+        VALUES (%(title)s, %(board_id)s)
+        ;
+        """, {"title": title, 'board_id': board_id})
+
+
 def get_user_by_username(username):
     user = data_manager.execute_select(
         """
