@@ -38,6 +38,7 @@ def get_columns():
         """
     )
 
+# Solving insering columns in table
 
 def insert_created_columns(board_id, status_id):
     data_manager.execute_query(
@@ -51,12 +52,15 @@ def insert_created_columns(board_id, status_id):
 def get_columns_for_board(board_id):
     return data_manager.execute_select(
         """
-        SELECT * FROM statuses
-        JOIN statuses_to_boards as stb as statuses.id = stb.status_id
+        SELECT * 
+        FROM statuses
+        JOIN statuses_to_boards as stb ON statuses.id = stb.status_id
         WHERE stb.board_id = %(board_id)s
         ;
         """, {"board_id": board_id}
     )
+
+# //on was writen like an as
 
 
 def get_cards_for_board(board_id):
@@ -85,6 +89,42 @@ def create_new_board(title, user_id=None):
             VALUES (%(title)s)
             ;
             """, {"title": title})
+    return True
+
+
+def delete_board(board_id, user_id=None):
+    if user_id:
+        data_manager.execute_query(
+            """
+            DELETE FROM boards
+            WHERE id = %(id)s
+            ;
+            """, {"id": board_id})
+    else:
+        data_manager.execute_query(
+            """
+            DELETE FROM boards
+            WHERE id = %(id)s AND user_id = %(user_id)s
+            ;
+            """, {"id": board_id, 'user_id': user_id})
+    return True
+
+
+def update_board(board_id, user_id=None):
+    if user_id:
+        data_manager.execute_query(
+            """
+            UPDATE boards
+            SET title = %(new_title)s WHERE id = %(id)s AND user_id = %(user_id)s
+            ;
+            """, {"id": board_id, "user_id": user_id})
+    else:
+        data_manager.execute_query(
+            """
+            UPDATE boards
+            SET title = %(new_title)s WHERE id = %(id)s
+            ;
+            """, {"id": board_id})
     return True
 
 

@@ -64,16 +64,16 @@ def edit_board_title(board_id):
     return response
 
 
-@app.route('/api/boards/<int:board_id>/delete', methods=['delete'])
+@app.route('/api/boards/<int:board_id>/delete', methods=['DELETE'])
 def delete_board(board_id):
     board = request.get_board(board_id)
     if board.get('user_id'):
         if 'user' in session.keys() and session.get('user').get('id') == board.get('user_id'):
-            deleted_board = queries.update_board_title(
+            deleted_board = queries.delete_board(
                 board.get('title'), board_id)
             flash('Board successfully deleted')
     else:
-        deleted_board = queries.update_board_title(
+        deleted_board = queries.delete_board(
             board.get('title'), board_id)
         flash('Board successfully deleted')
 
@@ -91,7 +91,6 @@ def get_columns():
     All the statuses
     """
     return queries.get_columns()
-
 
 
 @app.route('/login', methods=['POST', 'GET'])
