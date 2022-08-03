@@ -32,6 +32,10 @@ export let dataHandler = {
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
     },
+    //Trial to add a new column inside the two databases?
+    createColumn: async function (board_id, status_id, title) {
+        return await apiPost(window.origin + '/api/columns/createColumn', { board_id: board_id, status_id: status_id, title:title })
+    }
 };
 
 async function apiGet(url) {

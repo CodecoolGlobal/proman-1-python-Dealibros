@@ -38,6 +38,7 @@ def get_columns():
         """
     )
 
+# Solving insering columns in table
 
 def insert_created_columns(board_id, status_id):
     data_manager.execute_query(
@@ -51,12 +52,15 @@ def insert_created_columns(board_id, status_id):
 def get_columns_for_board(board_id):
     return data_manager.execute_select(
         """
-        SELECT * FROM statuses
-        JOIN statuses_to_boards as stb as statuses.id = stb.status_id
+        SELECT * 
+        FROM statuses
+        JOIN statuses_to_boards as stb ON statuses.id = stb.status_id
         WHERE stb.board_id = %(board_id)s
         ;
         """, {"board_id": board_id}
     )
+
+# //on was writen like an as
 
 
 def get_cards_for_board(board_id):
