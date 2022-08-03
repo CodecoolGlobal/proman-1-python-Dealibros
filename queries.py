@@ -34,7 +34,7 @@ def get_boards():
             GROUP BY columns.title, columns.id, board_id
             )
         as column_table on boards.id = column_table.board_id
-        GROUP BY board_id, boards.title
+        GROUP BY board_id, boards.title, boards.title
         ;
         """
     )

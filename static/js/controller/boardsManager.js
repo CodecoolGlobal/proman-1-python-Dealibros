@@ -26,6 +26,9 @@ export let boardsManager = {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(column);
             domManager.addChildtoParents(".bodyboard", content);
+
+
+
             // document.querySelectorAll(".bodyboard").forEach(function(single){
             //     let bodyBoard = single.parentElement.firstElementChild.getAttribute('data-board-id')
             //     console.log(bodyBoard)
