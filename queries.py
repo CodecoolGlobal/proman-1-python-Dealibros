@@ -24,43 +24,20 @@ def get_boards():
     """
     return data_manager.execute_select(
         """
-        SELECT * FROM boards
-        JOIN columns ON columns.board_id = boards.id
-        JOIN cards ON columns.id = cards.column_id
+        SELECT board_id, boards.title,
+        JSON_AGG(column_table) as columns
+        FROM boards
+        LEFT JOIN (
+            SELECT board_id, columns.title, columns.id, JSON_AGG(cards) as cards
+            FROM columns
+            LEFT JOIN cards ON columns.id = cards.column_id
+            GROUP BY columns.title, columns.id, board_id
+            )
+        as column_table on boards.id = column_table.board_id
+        GROUP BY board_id, boards.title
         ;
         """
     )
-
-
-def get_columns():
-    return data_manager.execute_select(
-        """
-        SELECT * FROM statuses
-        ;
-        """
-    )
-
-# Solving insering columns in table
-
-
-def insert_created_columns(board_id, status_id):
-    data_manager.execute_query(
-        """
-        INSERT INTO statuses_to_boards(board_id, status_id)
-        VALUES (%(board_id)s, %(status_id)s)
-        ;
-        """, {"board_id": board_id, 'status_id': status_id})
-
-
-def get_cards_for_board(board_id):
-    matching_cards = data_manager.execute_select(
-        """
-        SELECT * FROM cards
-        WHERE cards.board_id = %(board_id)s
-        ;
-        """, {"board_id": board_id})
-
-    return matching_cards
 
 
 def create_main_columns(board_id):
