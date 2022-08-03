@@ -48,8 +48,28 @@ CREATE TABLE cards (
 -- ---
 INSERT INTO boards(title)
 VALUES ('Board 1');
--- INSERT INTO boards(title)
--- VALUES ('Board 2');
+INSERT INTO boards(title)
+VALUES ('Board 2');
+
+INSERT INTO columns(board_id, title)
+VALUES (1, 'new'),
+    (1, 'in progress'),
+    (1, 'testing'),
+    (1, 'done');
+
+INSERT INTO columns(board_id, title)
+VALUES (2, 'new'),
+    (2, 'in progress'),
+    (2, 'testing'),
+    (2, 'done');
+
+
+INSERT INTO cards(title, card_order, column_id)
+VALUES ('card 1', 1, 1),
+         ('card 1', 2, 2),
+        ('card 1', 3, 3),
+         ('card 1', 4, 4);
+
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), "new card 1", 1, 1);
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 2', 2);
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 2, 'in progress card', 1);
