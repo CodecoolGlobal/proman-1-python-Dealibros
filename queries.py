@@ -88,6 +88,42 @@ def create_new_board(title, user_id=None):
     return True
 
 
+def delete_board(board_id, user_id=None):
+    if user_id:
+        data_manager.execute_query(
+            """
+            DELETE FROM boards
+            WHERE id = %(id)s
+            ;
+            """, {"id": board_id})
+    else:
+        data_manager.execute_query(
+            """
+            DELETE FROM boards
+            WHERE id = %(id)s AND user_id = %(user_id)s
+            ;
+            """, {"id": board_id, 'user_id': user_id})
+    return True
+
+
+def update_board(board_id, user_id=None):
+    if user_id:
+        data_manager.execute_query(
+            """
+            UPDATE boards
+            SET title = %(new_title)s WHERE id = %(id)s AND user_id = %(user_id)s
+            ;
+            """, {"id": board_id, "user_id": user_id})
+    else:
+        data_manager.execute_query(
+            """
+            UPDATE boards
+            SET title = %(new_title)s WHERE id = %(id)s
+            ;
+            """, {"id": board_id})
+    return True
+
+
 def get_user_by_username(username):
     user = data_manager.execute_select(
         """
