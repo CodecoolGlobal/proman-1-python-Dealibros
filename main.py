@@ -92,6 +92,36 @@ def delete_board(board_id):
     return response
 
 
+
+"""@app.route('/api/columns/<int:column_id>/delete', methods=['DELETE'])
+def delete_column(column_id):
+    column = request.get_column_id(column_id)
+    if column.get('user_id'):
+        if 'user' in session.keys() and session.get('user').get('id') == column.get('user_id'):
+            deleted_column = queries.delete_column(
+                column.get('title'), column_id)
+            flash('Column successfully deleted')
+    else:
+        deleted_column = queries.delete_column(
+            column.get('title'), column_id)
+        flash('Column successfully deleted')
+
+    if deleted_column:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response"""
+
+
+@app.route("/api/columns/")
+@json_response
+def get_columns():
+    """
+    All the statuses
+    """
+    return queries.get_columns()
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
