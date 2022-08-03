@@ -45,8 +45,10 @@ export let boardsManager = {
         setTimeout(
             () => {
                 const boards = document.querySelectorAll('.board');
-                boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event) ))
+                boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event) ))
                 // add eventListener to save button here
+                document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
+                ))
             }, 2000
         )
     }
@@ -71,7 +73,13 @@ async function showBoardForm() {
     document.querySelector('.titleForm').style.visibility = 'visible';
 }
 
-function saveEdit(event) {
+function showEditButton(event) {
     const button = event.target.nextElementSibling;
     button.style.display = "inline";
+}
+
+ async function edit_board_title(event) {
+    const title = event.target.previousElementSibling.innerHTML;
+    const boardId = event.target.dataset.boardId;
+    await dataHandler.editBoardTitle(title, boardId)
 }

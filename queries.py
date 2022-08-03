@@ -107,3 +107,11 @@ def create_user(username, password):
         ;
         """, {"username": username, "password": password})
     return True
+
+
+def edit_board_title(board_id, title):
+    return data_manager.execute_query ("""
+        UPDATE boards
+        SET title = %(title)s
+        WHERE id = %(board_id)s
+        """, {"board_id": board_id, "title": title})

@@ -23,8 +23,8 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
         return await apiPost(window.origin + '/api/boards/createBoard', { title: boardTitle });
     },
-    updateBoardTitle: async function (boardTitle, boardId) {
-        return await apiPatch(`/api/boards/${boardId}/update`, { title: boardTitle, board_id: boardId });
+    editBoardTitle: async function (boardTitle, boardId) {
+        return await apiPatch(`/api/boards/${boardId}/edit`, { title: boardTitle, board_id: boardId });
     },
     deleteBoard: async function (boardTitle, boardId) {
         return await apiDelete(`/api/boards/${boardId}/delete`, { board_id: boardId });
