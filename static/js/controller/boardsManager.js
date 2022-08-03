@@ -25,7 +25,7 @@ export let boardsManager = {
                 "click",
                 function(){
                     let title = "Unnamed"
-                    createNewColumn(title, board.board_id)
+                        createNewColumn(title, board.board_id)
                 }
             )
             }
@@ -45,9 +45,15 @@ export let boardsManager = {
             () => {
                 const boards = document.querySelectorAll('.board');
                 boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
+                //  boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
-                ))
+                ));
+                document.querySelectorAll('.delete-board').forEach((child) => child.addEventListener('click', (event) => deleteBoard(event)));
+
+                document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
+                document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
+
             }, 2000
         )
     }
@@ -63,8 +69,8 @@ async function createNewBoard() {
 
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
+    document.querySelector('#root').firstChild.querySelector('.delete-board').addEventListener('click', (event) => deleteBoard(event));
 }
-
 
 async function createNewColumn(title, board_id) {
     console.log("I am being clicked")

@@ -34,7 +34,7 @@ def get_boards():
             GROUP BY columns.title, columns.id, board_id
             ORDER BY columns.id
             )
-                as column_table on boards.id = column_table.board_id
+        as column_table on boards.id = column_table.board_id
         GROUP BY board_id, boards.title
         ORDER BY board_id
         ;
@@ -161,11 +161,21 @@ def create_user(username, password):
 
 
 def edit_board_title(board_id, title):
-    return data_manager.execute_query("""
+    data_manager.execute_query("""
         UPDATE boards
         SET title = %(title)s
         WHERE id = %(board_id)s
         """, {"board_id": board_id, "title": title})
+    return True
+
+
+def edit_column_title(column_id, title):
+    data_manager.execute_query("""
+        UPDATE columns
+        SET title = %(title)s
+        WHERE id = %(column_id)s
+        """, {"column_id": column_id, "title": title})
+    return True
 
 
 def get_column_id(column_id):
@@ -174,6 +184,7 @@ def get_column_id(column_id):
         WHERE c.id = %(column_id)s
         ;
         """, {"column_id": column_id})
+    return True
 
 
 def delete_column(column_id, user_id=None):
