@@ -57,7 +57,7 @@ def create_new_board():
 @app.route('/api/boards/<int:board_id>/edit', methods=['PATCH'])
 def edit_board_title(board_id):
     board = request.get_json()
-    update_board = queries.edit_board_title(board_id,board.get('title'))
+    update_board = queries.edit_board_title(board_id, board.get('title'))
     if update_board:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
@@ -67,31 +67,18 @@ def edit_board_title(board_id):
 
 @app.route('/api/boards/<int:board_id>/delete', methods=['DELETE'])
 def delete_board(board_id):
-    board = request.get_board(board_id)
+    board = queries.get_board(board_id)
     if board.get('user_id'):
         if 'user' in session.keys() and session.get('user').get('id') == board.get('user_id'):
-            deleted_board = queries.delete_board(
-                board.get('title'), board_id)
-            flash('Board successfully deleted')
+            deleted_board = queries.delete_board(board_id)
     else:
-        deleted_board = queries.delete_board(
-            board.get('title'), board_id)
-        flash('Board successfully deleted')
+        deleted_board = queries.delete_board(board_id)
 
     if deleted_board:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
     return response
-
-
-@app.route("/api/columns/")
-@json_response
-def get_columns():
-    """
-    All the statuses
-    """
-    return queries.get_columns()
 
 
 @app.route('/login', methods=['POST', 'GET'])
