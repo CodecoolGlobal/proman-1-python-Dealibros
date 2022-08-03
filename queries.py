@@ -32,9 +32,11 @@ def get_boards():
             FROM columns
             LEFT JOIN cards ON columns.id = cards.column_id
             GROUP BY columns.title, columns.id, board_id
+            ORDER BY columns.id
             )
         as column_table on boards.id = column_table.board_id
         GROUP BY board_id, boards.title
+        ORDER BY board_id
         ;
         """
     )
@@ -145,3 +147,30 @@ def edit_board_title(board_id, title):
         SET title = %(title)s
         WHERE id = %(board_id)s
         """, {"board_id": board_id, "title": title})
+
+
+def get_column_id(column_id):
+    return data_manager.execute_query("""
+        SELECT * FROM columns c
+        WHERE c.id = %(column_id)s
+        ;
+        """, {"column_id": column_id})
+
+
+def delete_column(column_id, user_id=None):
+    if user_id:
+        data_manager.execute_query(
+            """
+            DELETE FROM boards
+            WHERE id = %(id)s
+            ;
+            """, {"id": column_id})
+    else:
+        data_manager.execute_query(
+            """
+            DELETE FROM boards
+            WHERE id = %(id)s AND user_id = %(user_id)s
+            ;
+            """, {"id": column_id, 'user_id': user_id})
+    return True
+
