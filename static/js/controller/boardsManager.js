@@ -47,7 +47,7 @@ export let boardsManager = {
             () => {
                 const boards = document.querySelectorAll('.board');
                 boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
-                boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
+              //  boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
                 ));
@@ -99,7 +99,8 @@ function showEditButton(event) {
 async function edit_board_title(event) {
     const title = event.target.previousElementSibling.innerHTML;
     const boardId = event.target.dataset.boardId;
-    await dataHandler.editBoardTitle(title, boardId)
+    await dataHandler.editBoardTitle(title, boardId);
+    event.target.style.display = 'none';
 }
 
 
