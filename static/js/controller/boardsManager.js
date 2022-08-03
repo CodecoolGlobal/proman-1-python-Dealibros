@@ -1,7 +1,7 @@
-import {dataHandler} from "../data/dataHandler.js";
-import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
-import {domManager} from "../view/domManager.js";
-import {cardsManager} from "./cardsManager.js";
+import { dataHandler } from "../data/dataHandler.js";
+import { htmlFactory, htmlTemplates } from "../view/htmlFactory.js";
+import { domManager } from "../view/domManager.js";
+import { cardsManager } from "./cardsManager.js";
 
 
 export let boardsManager = {
@@ -20,35 +20,32 @@ export let boardsManager = {
         }
 
         // getStatuses should maybe be called createStatuses?
-        const columns = await dataHandler.getStatuses()
+        // const columns = await dataHandler.getStatuses()
 
 
-        for (let column of columns) {
-            const columnBuilder = htmlFactory(htmlTemplates.column);
-            const content = columnBuilder(column);
-            domManager.addChildtoParents(".bodyboard", content);
-            // document.querySelectorAll(".bodyboard").forEach(function(single){
-            //     let bodyBoard = single.parentElement.firstElementChild.getAttribute('data-board-id')
-            //     console.log(bodyBoard)
-            // })
+        // for (let column of columns) {
+        //     const columnBuilder = htmlFactory(htmlTemplates.column);
+        //     const content = columnBuilder(column);
+        //     domManager.addChildtoParents(".bodyboard", content);
+        // document.querySelectorAll(".bodyboard").forEach(function(single){
+        //     let bodyBoard = single.parentElement.firstElementChild.getAttribute('data-board-id')
+        //     console.log(bodyBoard)
+        // })
 
-            //insert into both tables board.id and board-statuses here?
-            //Need statuses_id or id, title, board_id
-            //statuses_id or id = column.id
-            //title = column_title
-            //board_id = ?
+        //insert into both tables board.id and board-statuses here?
+        //Need statuses_id or id, title, board_id
+        //statuses_id or id = column.id
+        //title = column_title
+        //board_id = ?
 
-            domManager.addEventListener(
-            `.createColumnButton[data-board-id="${column.id}]"]`,
-                //column.id Needs to be changed for board_id?
-            "click",
-            //need to create a proper eventHandler here
-            createNewColumn()
+        // domManager.addEventListener(
+        //     `.createColumnButton[data-board-id="${column.id}]"]`,
+        //     //column.id Needs to be changed for board_id?
+        //     "click",
+        //     //need to create a proper eventHandler here
+        //     createNewColumn()
 
-        );
-        }
-
-
+        // );
     },
 
     clearBoards: function () {

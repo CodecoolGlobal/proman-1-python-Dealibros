@@ -25,7 +25,8 @@ def get_boards():
     """
     All the boards
     """
-    return queries.get_boards()
+    data = queries.get_boards()
+    return data
 
 
 @app.route("/api/boards/<int:board_id>/cards/")
