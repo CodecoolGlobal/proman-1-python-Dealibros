@@ -125,14 +125,21 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        queries.create_user(username, generate_password_hash(password))
+        return jsonify(True)
+
+
+@app.route('/check-if-username-exists', methods=['GET', 'POST'])
+def check_if_username_exists():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        print(username)
         user = queries.get_user_by_username(username)
+        print(user)
         if user:
-            flash('Username is already taken!')
+            return {'exists': True}
         else:
-            queries.create_user(username, generate_password_hash(password))
-            flash('Your registration was successful, please log in.')
-            return redirect(url_for('index'))
-    # return render_template('login.html')
+            return {'exists': False}
 
 
 @app.route('/logout')

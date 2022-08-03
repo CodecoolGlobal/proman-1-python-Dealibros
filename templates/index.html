@@ -109,27 +109,30 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/register" method="post">
+                <form action="/register" method="post" id="registration-form">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="registration-username" name="username">
                     </div>
+                    <span id="registration-username-info"></span>
+                    <span id="registration-username-info2"></span>
+                    <br>
+                    <br>
                     <div class="mb-3">
                         <label for="pw1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="registration-username" name="password">
+                        <input type="password" class="form-control" id="registration-pw1" name="password">
                     </div>
-                    <div>
-                        <span>{% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                                <ul class=flashes>
-                                {% for message in messages %}
-                                    <li>{{ message }}</li>
-                                {% endfor %}
-                                </ul>
-                            {% endif %}
-                        {% endwith %}</span>
+                    <div class="mb-3">
+                        <label for="pw2" class="form-label">Repeat password</label>
+                        <input type="password" class="form-control" id="registration-pw2" name="password">
                     </div>
-                    <button id="registrationButton" type="submit" class="btn btn-primary">Register</button>
+                    <span id="registration-info-text"></span>
+                    <br>
+                    <span id="registration-info-text2"></span>
+                    <br>
+                    <br>
+                    <span id="registration-redirect-countdown"></span>
+                    <button id="registrationButton" type="button" class="btn btn-primary" disabled>Register</button>
                 </form>
             </div>
         </div>
