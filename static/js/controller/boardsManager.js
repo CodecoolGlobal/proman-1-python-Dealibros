@@ -22,7 +22,6 @@ export let boardsManager = {
         // getStatuses should maybe be called createStatuses?
         const columns = await dataHandler.getStatuses()
 
-
         for (let column of columns) {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(column);
