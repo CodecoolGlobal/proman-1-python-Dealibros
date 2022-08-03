@@ -16,7 +16,12 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
+    try:
+        username = session['user']['username']
+    except Exception:
+        username = False
+    print(username)
+    return render_template('index.html', username=username)
 
 
 @app.route("/api/boards")
@@ -99,18 +104,20 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        print(username, password)
         user = queries.get_user_by_username(username)
-        if user:
-            if check_password_hash(user['password'], password):
-                session['user'] = user
-                return redirect(url_for('index'))
+        while True:
+            if user:
+                if check_password_hash(user['password'], password):
+                    session['user'] = user
+                    return jsonify(True)
+                else:
+                    flash('Invalid username or password')
+                    return jsonify('Invalid username or password')
             else:
-                flash('Invalid username or password')
-                return redirect(url_for('login'))
-        else:
-            flash('there is no user with that username')
-            return redirect(url_for('login'))
-    return render_template('login.html')
+                flash('there is no user with that username')
+                return jsonify('there is no user with that username')
+    return redirect('/')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -124,13 +131,13 @@ def register():
         else:
             queries.create_user(username, generate_password_hash(password))
             flash('Your registration was successful, please log in.')
-            return redirect(url_for('login'))
-    return render_template('login.html')
+            return redirect(url_for('index'))
+    # return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    session.clear()
     return redirect(url_for('index'))
 
 
