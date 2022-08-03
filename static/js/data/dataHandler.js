@@ -10,8 +10,9 @@ export let dataHandler = {
         return await apiGet("/api/columns");
         // the statuses are retrieved and then the callback function is called with the statuses
     },
-    getStatus: async function (statusId) {
+    editColumnTitle: async function (columnId, columnTitle) {
         // the status is retrieved and then the callback function is called with the status
+        return await apiPatch(`/api/columns/${columnId}/edit`, { title: columnTitle });
     },
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);

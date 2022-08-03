@@ -11,6 +11,7 @@ app.secret_key = "super secret key!"
 load_dotenv()
 
 
+
 @app.route("/")
 def index():
     """
@@ -70,6 +71,17 @@ def edit_board_title(board_id):
     board = request.get_json()
     update_board = queries.edit_board_title(board_id, board.get('title'))
     if update_board:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
+@app.route('/api/columns/<int:column_id>/edit', methods=['PATCH'])
+def edit_column_title(column_id):
+    column = request.get_json()
+    update_column = queries.edit_column_title(column_id, column.get('title'))
+    if update_column:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)

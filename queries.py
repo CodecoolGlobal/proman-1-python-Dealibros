@@ -192,4 +192,8 @@ def delete_column(column_id, user_id=None):
             WHERE id = %(id)s AND user_id = %(user_id)s
             ;
             """, {"id": column_id, 'user_id': user_id})
+<<<<<<< HEAD
     return True
+=======
+    return True
+>>>>>>> fe1f5091f4e290c5ecaf266f73b9932469e98439
