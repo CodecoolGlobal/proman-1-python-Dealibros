@@ -140,7 +140,7 @@ def create_user(username, password):
 
 
 def edit_board_title(board_id, title):
-    return data_manager.execute_query ("""
+    return data_manager.execute_query("""
         UPDATE boards
         SET title = %(title)s
         WHERE id = %(board_id)s
