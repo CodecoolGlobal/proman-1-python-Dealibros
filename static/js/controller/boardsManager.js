@@ -52,11 +52,7 @@ export let boardsManager = {
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
                 ));
                 document.querySelectorAll('.delete-board').forEach((child) => child.addEventListener('click', (event) => deleteBoard(event)));
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> fe1f5091f4e290c5ecaf266f73b9932469e98439
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
             }, 2000
