@@ -24,11 +24,11 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <div class="board" data-board-id=${board.id} contentEditable="true">${board.title}</div><div class="positionColumnButton"><button class="createColumnButton" data-board-id="${board.id}">+</button></div>
-                    <button class="edit-board" style="display: none;" data-board-id="${board.id}">Save</button>
-                <div class="bodyboard"></div>
-                <button class="delete-board" data-board-id="${board.id}">Delete</button>
-                <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                <div class="board" data-board-id=${board.board_id} contentEditable="true">${board.title}</div><div class="positionColumnButton"><button class="createColumnButton" data-board-board_id="${board.board_id}">+</button></div>
+                    <button class="edit-board" style="display: none;" data-board-id="${board.board_id}">Save</button>
+                <div class="bodyboard" data-board-id="${board.board_id}"></div>
+                <button class="delete-board" data-board-id="${board.board_id}">Delete</button>
+                <button class="toggle-board-button" data-board-id="${board.board_id}">Show Cards</button>
             </div>`;
 }
 

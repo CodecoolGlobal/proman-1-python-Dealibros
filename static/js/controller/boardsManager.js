@@ -7,16 +7,21 @@ import { cardsManager } from "./cardsManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
+        console.log(boards)
         for (let board of boards.reverse()) {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
+                `.toggle-board-button[data-board-id="${board.board_id}"]`,
                 "click",
                 showHideButtonHandler
             );
-            console.log(board.id)
+            for (let column of board.columns) {
+                const columnBuilder = htmlFactory(htmlTemplates.column);
+                const column_element = columnBuilder(column)
+                domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
+            }
         }
 
         // getStatuses should maybe be called createStatuses?
@@ -70,7 +75,7 @@ export let boardsManager = {
         setTimeout(
             () => {
                 const boards = document.querySelectorAll('.board');
-                boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event) ))
+                boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
                 boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
@@ -119,7 +124,7 @@ function showEditButton(event) {
     button.style.display = "inline";
 }
 
- async function edit_board_title(event) {
+async function edit_board_title(event) {
     const title = event.target.previousElementSibling.innerHTML;
     const boardId = event.target.dataset.boardId;
     await dataHandler.editBoardTitle(title, boardId)
