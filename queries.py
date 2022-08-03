@@ -28,7 +28,7 @@ def get_boards():
         JSON_AGG(column_table) as columns
         FROM boards
         LEFT JOIN (
-            SELECT board_id, columns.title, columns.id, JSON_AGG(cards) as cards
+            SELECT board_id, columns.title, columns.id, JSON_AGG(cards ORDER BY cards.card_order) as cards
             FROM columns
             LEFT JOIN cards ON columns.id = cards.column_id
             GROUP BY columns.title, columns.id, board_id
@@ -175,6 +175,15 @@ def edit_column_title(column_id, title):
         SET title = %(title)s
         WHERE id = %(column_id)s
         """, {"column_id": column_id, "title": title})
+    return True
+
+
+def edit_card_title(card_id, title):
+    data_manager.execute_query("""
+        UPDATE cards
+        SET title = %(title)s
+        WHERE id = %(card_id)s
+        """, {"card_id": card_id, "title": title})
     return True
 
 

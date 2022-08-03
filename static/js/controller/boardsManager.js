@@ -20,14 +20,17 @@ export let boardsManager = {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
-                domManager.addEventListener(
-                `.createColumnButton[data-board-board_id="${board.board_id}"]`,
-                "click",
-                function(){
-                    let title = "Unnamed"
-                        createNewColumn(title, board.board_id)
+                if (column.cards.length > 0) {
+                    cardsManager.loadCards(column.cards);
                 }
-            )
+                domManager.addEventListener(
+                    `.createColumnButton[data-board-board_id="${board.board_id}"]`,
+                    "click",
+                    function () {
+                        let title = "Unnamed"
+                        createNewColumn(title, board.board_id)
+                    }
+                )
             }
         }
     },
@@ -53,7 +56,7 @@ export let boardsManager = {
 
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
-
+                cardsManager.addEventListeners();
             }, 2000
         )
     }

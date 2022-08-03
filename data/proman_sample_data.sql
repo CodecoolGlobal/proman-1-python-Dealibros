@@ -66,9 +66,9 @@ VALUES (2, 'new'),
 
 INSERT INTO cards(title, card_order, column_id)
 VALUES ('card 1', 1, 1),
-         ('card 1', 2, 2),
-        ('card 1', 3, 3),
-         ('card 1', 4, 4);
+         ('card 2', 2, 2),
+        ('card 3', 3, 3),
+         ('card 4', 4, 4);
 
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), "new card 1", 1, 1);
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 2', 2);

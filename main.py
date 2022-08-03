@@ -11,7 +11,6 @@ app.secret_key = "super secret key!"
 load_dotenv()
 
 
-
 @app.route("/")
 def index():
     """
@@ -88,6 +87,17 @@ def edit_column_title(column_id):
     return response
 
 
+@app.route('/api/cards/<int:card_id>', methods=['PATCH'])
+def edit_card_title(card_id):
+    card = request.get_json()
+    update_card = queries.edit_card_title(card_id, card.get('title'))
+    if update_card:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
 @app.route('/api/boards/<int:board_id>/delete', methods=['DELETE'])
 def delete_board(board_id):
     board = queries.get_board(board_id)
@@ -102,7 +112,6 @@ def delete_board(board_id):
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
     return response
-
 
 
 """@app.route('/api/columns/<int:column_id>/delete', methods=['DELETE'])

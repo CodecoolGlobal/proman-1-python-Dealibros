@@ -34,15 +34,19 @@ function boardBuilder(board) {
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}" contentEditable="true">${card.title}</div>`;
+    return `<div class="card-container" draggable="true">
+                <div class="card" data-card-id="${card.id}" contentEditable="true">${card.title}</div>
+                <button class="edit-card" style="display: none;" data-card-id="${card.id}">Save</button>
+            </div>`;
 }
 
 function columnBuilder(column) {
     return `<div class="column" data-column-id="${column.id}">
                 <h4 class="columnTitle" contentEditable="true">${column.title}<hr/></h4>
                 <button class="edit-column" style="display: none;" data-column-id="${column.id}">Save</button>
-                <button style="overflow-inline: auto" class="submit">X</button>
-                <div class="cards-container" data-column-id="${column.id}></div>
+                <button style="overflow-inline: auto;" class="submit">X</button>
+                <div class="cards-container" data-column-id="${column.id}"></div>
+                
             </div>`;
 }
 
