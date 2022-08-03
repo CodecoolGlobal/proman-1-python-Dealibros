@@ -21,36 +21,10 @@ export let boardsManager = {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
+                // console.log(column.cards)
             }
         }
 
-        // getStatuses should maybe be called createStatuses?
-        // const columns = await dataHandler.getStatuses()
-
-
-        // for (let column of columns) {
-        //     const columnBuilder = htmlFactory(htmlTemplates.column);
-        //     const content = columnBuilder(column);
-        //     domManager.addChildtoParents(".bodyboard", content);
-        // document.querySelectorAll(".bodyboard").forEach(function(single){
-        //     let bodyBoard = single.parentElement.firstElementChild.getAttribute('data-board-id')
-        //     console.log(bodyBoard)
-        // })
-
-        //insert into both tables board.id and board-statuses here?
-        //Need statuses_id or id, title, board_id
-        //statuses_id or id = column.id
-        //title = column_title
-        //board_id = ?
-
-        // domManager.addEventListener(
-        //     `.createColumnButton[data-board-id="${column.id}]"]`,
-        //     //column.id Needs to be changed for board_id?
-        //     "click",
-        //     //need to create a proper eventHandler here
-        //     createNewColumn()
-
-        // );
     },
 
     clearBoards: function () {
@@ -73,10 +47,11 @@ export let boardsManager = {
             () => {
                 const boards = document.querySelectorAll('.board');
                 boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
-                boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
+              //  boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
-                ))
+                ));
+                document.querySelectorAll('.delete-board').forEach((child) => child.addEventListener('click', (event) => deleteBoard(event)));
             }, 2000
         )
     }
@@ -86,9 +61,9 @@ async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
     let title = document.querySelector('#title');
     await dataHandler.createNewBoard(title.value);
-
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
+    document.querySelector('#root').firstChild.querySelector('.delete-board').addEventListener('click', (event) => deleteBoard(event));
 }
 
 
@@ -108,7 +83,7 @@ function createNewColumn(clickEvent) {
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
+    //cardsManager.loadCards(boardId);
 }
 
 
@@ -124,5 +99,14 @@ function showEditButton(event) {
 async function edit_board_title(event) {
     const title = event.target.previousElementSibling.innerHTML;
     const boardId = event.target.dataset.boardId;
-    await dataHandler.editBoardTitle(title, boardId)
+    await dataHandler.editBoardTitle(title, boardId);
+    event.target.style.display = 'none';
+}
+
+
+async function deleteBoard(event) {
+    const boardId = event.target.dataset.boardId;
+    await dataHandler.deleteBoard(boardId);
+    document.querySelector('#root').removeChild(event.target.parentElement);
+
 }

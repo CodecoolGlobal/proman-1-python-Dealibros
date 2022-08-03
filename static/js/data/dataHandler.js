@@ -26,7 +26,7 @@ export let dataHandler = {
     editBoardTitle: async function (boardTitle, boardId) {
         return await apiPatch(`/api/boards/${boardId}/edit`, { title: boardTitle, board_id: boardId });
     },
-    deleteBoard: async function (boardTitle, boardId) {
+    deleteBoard: async function (boardId) {
         return await apiDelete(`/api/boards/${boardId}/delete`, { board_id: boardId });
     },
     createNewCard: async function (cardTitle, boardId, statusId) {

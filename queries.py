@@ -42,6 +42,17 @@ def get_boards():
     )
 
 
+def get_board(board_id):
+    return data_manager.execute_select(
+        """
+        SELECT *
+        FROM boards
+        WHERE id = %(board_id)s
+        ;
+        """,
+        {'board_id': board_id}, False)
+
+
 def create_main_columns(board_id):
     data_manager.execute_query(
         """
@@ -86,19 +97,18 @@ def create_new_board(title, user_id=None):
 
 def delete_board(board_id, user_id=None):
     if user_id:
+        data_manager.execute_query("""
+            DELETE FROM boards
+            WHERE id = %(id)s AND user_id = %(user_id)s
+            ;
+            """, {"id": board_id, 'user_id': user_id})
+    else:
         data_manager.execute_query(
             """
             DELETE FROM boards
             WHERE id = %(id)s
             ;
             """, {"id": board_id})
-    else:
-        data_manager.execute_query(
-            """
-            DELETE FROM boards
-            WHERE id = %(id)s AND user_id = %(user_id)s
-            ;
-            """, {"id": board_id, 'user_id': user_id})
     return True
 
 
