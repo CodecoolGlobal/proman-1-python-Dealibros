@@ -25,6 +25,8 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        JOIN columns ON columns.board_id = boards.id
+        JOIN cards ON columns.id = cards.column_id
         ;
         """
     )
@@ -40,6 +42,7 @@ def get_columns():
 
 # Solving insering columns in table
 
+
 def insert_created_columns(board_id, status_id):
     data_manager.execute_query(
         """
@@ -47,20 +50,6 @@ def insert_created_columns(board_id, status_id):
         VALUES (%(board_id)s, %(status_id)s)
         ;
         """, {"board_id": board_id, 'status_id': status_id})
-
-
-def get_columns_for_board(board_id):
-    return data_manager.execute_select(
-        """
-        SELECT * 
-        FROM statuses
-        JOIN statuses_to_boards as stb ON statuses.id = stb.status_id
-        WHERE stb.board_id = %(board_id)s
-        ;
-        """, {"board_id": board_id}
-    )
-
-# //on was writen like an as
 
 
 def get_cards_for_board(board_id):
@@ -72,6 +61,28 @@ def get_cards_for_board(board_id):
         """, {"board_id": board_id})
 
     return matching_cards
+
+
+def create_main_columns(board_id):
+    data_manager.execute_query(
+        """
+            INSERT INTO columns(title, board_id)
+            VALUES ('new', %(board_id)s),
+                    ('in progress', %(board_id)s),
+                    ('testing', %(board_id)s),
+                    ('done', %(board_id)s)
+            ;
+            """, {'board_id': board_id})
+
+
+def get_board_by_title(title):
+    board = data_manager.execute_select(
+        """
+        SELECT * FROM boards
+        WHERE title = %(title)s
+        ;
+        """, {"title": title}, False)
+    return board
 
 
 def create_new_board(title, user_id=None):
@@ -89,6 +100,8 @@ def create_new_board(title, user_id=None):
             VALUES (%(title)s)
             ;
             """, {"title": title})
+    board = get_board_by_title(title)
+    create_main_columns(board.get('id'))
     return True
 
 
