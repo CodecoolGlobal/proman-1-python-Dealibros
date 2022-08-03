@@ -47,11 +47,14 @@ export let boardsManager = {
             () => {
                 const boards = document.querySelectorAll('.board');
                 boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
-              //  boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
+                //  boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
                 ));
                 document.querySelectorAll('.delete-board').forEach((child) => child.addEventListener('click', (event) => deleteBoard(event)));
+    
+                document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
+                document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
             }, 2000
         )
     }
@@ -109,4 +112,11 @@ async function deleteBoard(event) {
     await dataHandler.deleteBoard(boardId);
     document.querySelector('#root').removeChild(event.target.parentElement);
 
+}
+
+async function editColumn(event) {
+    const title = event.target.previousElementSibling.innerHTML;
+    const columnId = event.target.dataset.columnId;
+    await dataHandler.editColumnTitle(columnId, title);
+    event.target.style.display = 'none';
 }

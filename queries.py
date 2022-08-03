@@ -150,8 +150,18 @@ def create_user(username, password):
 
 
 def edit_board_title(board_id, title):
-    return data_manager.execute_query("""
+    data_manager.execute_query("""
         UPDATE boards
         SET title = %(title)s
         WHERE id = %(board_id)s
         """, {"board_id": board_id, "title": title})
+    return True
+
+
+def edit_column_title(column_id, title):
+    data_manager.execute_query("""
+        UPDATE columns
+        SET title = %(title)s
+        WHERE id = %(column_id)s
+        """, {"column_id": column_id, "title": title})
+    return True

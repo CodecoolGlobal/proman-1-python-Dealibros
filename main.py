@@ -65,6 +65,17 @@ def edit_board_title(board_id):
     return response
 
 
+@app.route('/api/columns/<int:column_id>/edit', methods=['PATCH'])
+def edit_column_title(column_id):
+    column = request.get_json()
+    update_column = queries.edit_column_title(column_id, column.get('title'))
+    if update_column:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
 @app.route('/api/boards/<int:board_id>/delete', methods=['DELETE'])
 def delete_board(board_id):
     board = queries.get_board(board_id)
