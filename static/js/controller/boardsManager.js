@@ -39,6 +39,12 @@ export let boardsManager = {
     clearBoards: function () {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
+        let clone = root.cloneNode(true);
+        root.parentNode.replaceChild(clone, root);
+        let button = document.querySelector('.createBoardButton');
+        let buttonClone = button.cloneNode(true);
+        button.parentNode.replaceChild(buttonClone, button);
+
     },
     addEventListeners: function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
