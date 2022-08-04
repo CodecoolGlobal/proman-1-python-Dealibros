@@ -45,6 +45,7 @@ function columnBuilder(column) {
                 <h4 class="columnTitle" contentEditable="true">${column.title} </h4>
                 <button class="edit-column" style="display: none;" data-column-id="${column.id}">Save</button>
                 <button style="overflow-inline: auto;" class="delete-column" data-column-id="${column.id}">X</button>
+                <button class="add-card" data-column-id="${column.id}">+</button>
                 <div class="cards-container" data-column-id="${column.id}"></div>
             </div>`;
 }

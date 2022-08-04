@@ -24,23 +24,23 @@ export let boardsManager = {
                 if (column.cards.length > 0) {
                     cardsManager.loadCards(column.cards);
                 }}
-                domManager.addEventListener(
+                setTimeout(domManager.addEventListener(
                     `.createColumnButton[data-board-board_id="${board.board_id}"]`,
                     "click",
                     function () {
                         let title = "Unnamed"
                         createNewColumn(title, board.board_id)
-                })
+                }),500)
 
             }
             domManager.addEventListener(
-            `.createColumnButton[data-board-id="${board.board_id}"]`,
-            "click",
-            function () {
-            let title = "Unnamed"
-            createNewColumn(title, board.board_id)
-                    }
-                )
+                `.createColumnButton[data-board-id="${board.board_id}"]`,
+                "click",
+                function () {
+                    let title = "Unnamed"
+                    createNewColumn(title, board.board_id)
+                }
+            )
         }
     },
 
@@ -68,7 +68,7 @@ export let boardsManager = {
                 cardsManager.addEventListeners();
                 document.querySelectorAll('.delete-column').forEach((child) => child.addEventListener('click', (event) => deleteColumn(event)));
                 document.querySelectorAll('.add-card').forEach((child) => child.addEventListener('click', (event) => cardsManager.addCard(event)));
-            }, 2000
+            }, 500
         )
     }
 };
@@ -80,10 +80,9 @@ async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
     let title = document.querySelector('#title');
     await dataHandler.createNewBoard(title.value);
-
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
-    document.querySelector('#root').firstChild.querySelector('.delete-board').addEventListener('click', (event) => deleteBoard(event));
+    boardsManager.addEventListeners();
 }
 
 async function createNewColumn(title, board_id) {
@@ -91,6 +90,7 @@ async function createNewColumn(title, board_id) {
     await dataHandler.createNewColumn(title, board_id)
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
+    boardsManager.addEventListeners();
 }
 
 
@@ -122,6 +122,7 @@ async function deleteBoard(event) {
     await dataHandler.deleteBoard(boardId);
     document.querySelector('#root').removeChild(event.target.parentElement);
 }
+
 
 async function deleteColumn(event) {
     const columnId = event.target.dataset.columnId;

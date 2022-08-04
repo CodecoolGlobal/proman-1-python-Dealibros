@@ -28,7 +28,7 @@ export let dataHandler = {
         return await apiPatch(`/api/boards/${boardId}/edit`, { title: boardTitle, board_id: boardId });
     },
     deleteBoard: async function (boardId) {
-        return await apiDelete(`/api/boards/${boardId}/delete`, { board_id: boardId });
+        return await apiDelete(`/api/boards/${boardId}/delete`);
     },
     deleteColumn: async function (columnId) {
         console.log(columnId)
@@ -38,8 +38,9 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
         return await apiPatch(`/api/cards/${cardId}`, { title: cardTitle })
     },
-    createNewCard: async function (cardTitle, boardId, statusId) {
+    createNewCard: async function (cardTitle, columnId) {
         // creates new card, saves it and calls the callback function with its data
+        return await apiPost(`/api/columns/${columnId}/create_new_card`, { title: cardTitle })
     },
 
     createNewColumn: async function (title, board_id) {
