@@ -20,7 +20,6 @@ def index():
         username = session['user']['username']
     except Exception:
         username = False
-    print(username)
     return render_template('index.html', username=username)
 
 
@@ -82,7 +81,6 @@ def delete_board(board_id):
         deleted_board = queries.delete_board(
             board.get('title'), board_id)
         flash('Board successfully deleted')
-
     if deleted_board:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
@@ -104,7 +102,6 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        print(username, password)
         user = queries.get_user_by_username(username)
         while True:
             if user:
@@ -133,9 +130,7 @@ def register():
 def check_if_username_exists():
     if request.method == 'POST':
         username = request.form.get('username')
-        print(username)
         user = queries.get_user_by_username(username)
-        print(user)
         if user:
             return {'exists': True}
         else:
@@ -150,8 +145,6 @@ def logout():
 
 def main():
     app.run(debug=True)
-
-    # Serving the favicon
     with app.app_context():
         app.add_url_rule(
             '/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
