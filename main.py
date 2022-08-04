@@ -151,7 +151,7 @@ def get_columns():
     return queries.get_columns()
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/api/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -171,7 +171,7 @@ def login():
     return redirect('/')
 
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/api/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -180,7 +180,7 @@ def register():
         return jsonify(True)
 
 
-@app.route('/check-if-username-exists', methods=['GET', 'POST'])
+@app.route('/api/check-if-username-exists', methods=['GET', 'POST'])
 def check_if_username_exists():
     if request.method == 'POST':
         username = request.form.get('username')
