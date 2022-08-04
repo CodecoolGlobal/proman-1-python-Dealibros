@@ -61,11 +61,23 @@ def create_new_board():
     return response
 
 
-@app.route('/api/columns/create_new_column', methods=['POST'])
-def create_new_column(title, board_id):
+@app.route('/api/columns/createNewColumn', methods=['POST'])
+def create_new_column():
     column = request.get_json()
-    create_new_column = queries.create_new_column(column.get(title, board_id))
-    if create_new_column:
+    print(column)
+    new_column = queries.create_new_column(column.get('title'), column.get('board_id'))
+    if new_column:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
+@app.route('/api/columns/<int:column_id>/create_new_card', methods=['POST'])
+def create_new_card(column_id):
+    card = request.get_json()
+    create_new_card = queries.create_new_card(card.get('title'), column_id)
+    if create_new_card:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
@@ -110,10 +122,9 @@ def delete_board(board_id):
     board = queries.get_board(board_id)
     if board.get('user_id'):
         if 'user' in session.keys() and session.get('user').get('id') == board.get('user_id'):
-            deleted_board = queries.delete_board(board_id)
+            deleted_board = queries.delete_board(board_id, session.get('user').get('id'))
     else:
-        deleted_board = queries.delete_board(
-            board.get('title'), board_id)
+        deleted_board = queries.delete_board(board_id)
         flash('Board successfully deleted')
     if deleted_board:
         response = make_response(jsonify({"message": "ok"}), 200)

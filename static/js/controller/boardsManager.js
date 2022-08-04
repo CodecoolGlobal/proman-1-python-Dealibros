@@ -23,15 +23,16 @@ export let boardsManager = {
                 if (column.cards.length > 0) {
                     cardsManager.loadCards(column.cards);
                 }
-                domManager.addEventListener(
-                    `.createColumnButton[data-board-board_id="${board.board_id}"]`,
-                    "click",
-                    function () {
-                        let title = "Unnamed"
-                        createNewColumn(title, board.board_id)
-                    }
-                )
+
             }
+            domManager.addEventListener(
+                `.createColumnButton[data-board-id="${board.board_id}"]`,
+                "click",
+                function () {
+                    let title = "Unnamed"
+                    createNewColumn(title, board.board_id)
+                }
+            )
         }
     },
 
@@ -57,6 +58,7 @@ export let boardsManager = {
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
                 cardsManager.addEventListeners();
+                document.querySelectorAll('.add-card').forEach((child) => child.addEventListener('click', (event) => cardsManager.addCard(event)));
             }, 2000
         )
     }
@@ -69,17 +71,17 @@ async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
     let title = document.querySelector('#title');
     await dataHandler.createNewBoard(title.value);
-
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
-    document.querySelector('#root').firstChild.querySelector('.delete-board').addEventListener('click', (event) => deleteBoard(event));
+    boardsManager.addEventListeners();
 }
 
 async function createNewColumn(title, board_id) {
     console.log("I am being clicked")
     await dataHandler.createNewColumn(title, board_id)
-    // boardsManager.clearBoards();
-    // await boardsManager.loadBoards();
+    boardsManager.clearBoards();
+    await boardsManager.loadBoards();
+    boardsManager.addEventListeners();
 }
 
 
@@ -110,7 +112,9 @@ async function deleteBoard(event) {
     const boardId = event.target.dataset.boardId;
     await dataHandler.deleteBoard(boardId);
     document.querySelector('#root').removeChild(event.target.parentElement);
-
+    // boardsManager.clearBoards();
+    // await boardsManager.loadBoards();
+    // boardsManager.addEventListeners();
 }
 
 async function editColumn(event) {
