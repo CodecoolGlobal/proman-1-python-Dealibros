@@ -79,8 +79,8 @@ async function createNewColumn(title, board_id) {
     console.log(title)
     await dataHandler.createNewColumn(title, board_id)
     console.log("done")
-    // boardsManager.clearBoards();
-    // await boardsManager.loadBoards();
+    boardsManager.clearBoards();
+    await boardsManager.loadBoards();
 }
 
 

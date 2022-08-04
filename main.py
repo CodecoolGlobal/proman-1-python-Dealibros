@@ -56,11 +56,10 @@ def create_new_board():
 
 
 @app.route('/api/columns/createNewColumn', methods=['POST'])
-def create_new_column(title, board_id):
-    # column = request.get_json()
-    print("title", title)
-    print("boardid route", board_id)
-    new_column = queries.create_new_column('title', 'board_id')
+def create_new_column():
+    column = request.get_json()
+    print(column)
+    new_column = queries.create_new_column(column.get('title'), column.get('board_id'))
     if new_column:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:

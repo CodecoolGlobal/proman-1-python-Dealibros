@@ -137,6 +137,7 @@ def create_new_column(title, board_id):
         VALUES (%(title)s, %(board_id)s)
         ;
         """, {"title": title, "board_id": board_id})
+    return True
 
 
 def get_user_by_username(username):
