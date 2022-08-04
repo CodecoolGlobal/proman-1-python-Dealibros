@@ -26,13 +26,13 @@ export let boardsManager = {
 
             }
             domManager.addEventListener(
-            `.createColumnButton[data-board-id="${board.board_id}"]`,
-            "click",
-            function () {
-            let title = "Unnamed"
-            createNewColumn(title, board.board_id)
-                    }
-                )
+                `.createColumnButton[data-board-id="${board.board_id}"]`,
+                "click",
+                function () {
+                    let title = "Unnamed"
+                    createNewColumn(title, board.board_id)
+                }
+            )
         }
     },
 
@@ -71,10 +71,9 @@ async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
     let title = document.querySelector('#title');
     await dataHandler.createNewBoard(title.value);
-
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
-    document.querySelector('#root').firstChild.querySelector('.delete-board').addEventListener('click', (event) => deleteBoard(event));
+    boardsManager.addEventListeners();
 }
 
 async function createNewColumn(title, board_id) {
