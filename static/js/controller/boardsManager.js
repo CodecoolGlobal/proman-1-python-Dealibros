@@ -57,6 +57,7 @@ export let boardsManager = {
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
                 cardsManager.addEventListeners();
+                document.querySelectorAll('.add-card').forEach((child) => child.addEventListener('click', (event) => cardsManager.addCard(event)));
             }, 2000
         )
     }
@@ -78,8 +79,9 @@ async function createNewBoard() {
 async function createNewColumn(title, board_id) {
     console.log("I am being clicked")
     await dataHandler.createNewColumn(title, board_id)
-    // boardsManager.clearBoards();
-    // await boardsManager.loadBoards();
+    boardsManager.clearBoards();
+    await boardsManager.loadBoards();
+    boardsManager.addEventListeners();
 }
 
 
