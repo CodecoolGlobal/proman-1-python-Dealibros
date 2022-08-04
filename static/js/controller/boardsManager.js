@@ -23,15 +23,16 @@ export let boardsManager = {
                 if (column.cards.length > 0) {
                     cardsManager.loadCards(column.cards);
                 }
-                domManager.addEventListener(
-                    `.createColumnButton[data-board-board_id="${board.board_id}"]`,
-                    "click",
-                    function () {
-                        let title = "Unnamed"
-                        createNewColumn(title, board.board_id)
+
+            }
+            domManager.addEventListener(
+            `.createColumnButton[data-board-id="${board.board_id}"]`,
+            "click",
+            function () {
+            let title = "Unnamed"
+            createNewColumn(title, board.board_id)
                     }
                 )
-            }
         }
     },
 
