@@ -247,9 +247,19 @@ def get_column_id(column_id):
 
 def delete_column(column_id):
     data_manager.execute_query(
-            """
+        """
             DELETE FROM columns
             WHERE id = %(id)s
             ;
             """, {"id": column_id})
+    return True
+
+
+def delete_card(card_id):
+    data_manager.execute_query(
+        """
+            DELETE FROM cards
+            WHERE id = %(id)s
+            ;
+            """, {"id": card_id})
     return True

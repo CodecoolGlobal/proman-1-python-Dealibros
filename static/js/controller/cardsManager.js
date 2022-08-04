@@ -17,6 +17,7 @@ export let cardsManager = {
     addEventListeners: async function () {
         document.querySelectorAll('.card').forEach((child) => deleteButtonHandler);
         document.querySelectorAll('.edit-card').forEach((child) => child.addEventListener('click', (event) => editCardTitle(event)));
+        document.querySelectorAll('.delete-card').forEach((child) => child.addEventListener('click', (event) => deleteCard(event)));
     },
     addCard: async function (event) {
         let columnId = event.target.dataset.columnId;
@@ -36,4 +37,10 @@ async function editCardTitle(event) {
     const cardId = event.target.dataset.cardId;
     await dataHandler.editCardTitle(title, cardId);
     event.target.style.display = 'none';
+}
+
+async function deleteCard(event) {
+    const cardId = event.target.dataset.cardId;
+    await dataHandler.deleteCard(cardId);
+    event.target.parentNode.parentNode.removeChild(event.target.parentNode);
 }

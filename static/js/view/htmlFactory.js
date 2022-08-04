@@ -37,6 +37,7 @@ function cardBuilder(card) {
     return `<div class="card-container" draggable="true">
                 <div class="card" data-card-id="${card.id}" contentEditable="true">${card.title}</div>
                 <button class="edit-card" style="display: none;" data-card-id="${card.id}">Save</button>
+                <button class="delete-card" data-card-id="${card.id}">x</button>
             </div>`;
 }
 
