@@ -17,12 +17,13 @@ export let boardsManager = {
                 showHideButtonHandler
             );
             for (let column of board.columns) {
+                if (column) {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
                 if (column.cards.length > 0) {
                     cardsManager.loadCards(column.cards);
-                }
+                }}
                 domManager.addEventListener(
                     `.createColumnButton[data-board-board_id="${board.board_id}"]`,
                     "click",
@@ -57,6 +58,7 @@ export let boardsManager = {
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
                 cardsManager.addEventListeners();
+                document.querySelectorAll('.delete-column').forEach((child) => child.addEventListener('click', (event) => deleteColumn(event)));
             }, 2000
         )
     }
@@ -110,8 +112,16 @@ async function deleteBoard(event) {
     const boardId = event.target.dataset.boardId;
     await dataHandler.deleteBoard(boardId);
     document.querySelector('#root').removeChild(event.target.parentElement);
-
 }
+
+async function deleteColumn(event) {
+    const columnId = event.target.dataset.columnId;
+    await dataHandler.deleteColumn(columnId);
+    boardsManager.clearBoards();
+    await boardsManager.loadBoards();
+    boardsManager.addEventListeners()
+}
+
 
 async function editColumn(event) {
     const title = event.target.previousElementSibling.innerHTML;
