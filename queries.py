@@ -245,19 +245,11 @@ def get_column_id(column_id):
     return True
 
 
-def delete_column(column_id, user_id=None):
-    if user_id:
-        data_manager.execute_query(
+def delete_column(column_id):
+    data_manager.execute_query(
             """
-            DELETE FROM boards
+            DELETE FROM columns
             WHERE id = %(id)s
             ;
             """, {"id": column_id})
-    else:
-        data_manager.execute_query(
-            """
-            DELETE FROM boards
-            WHERE id = %(id)s AND user_id = %(user_id)s
-            ;
-            """, {"id": column_id, 'user_id': user_id})
     return True

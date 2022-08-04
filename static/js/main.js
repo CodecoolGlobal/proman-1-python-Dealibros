@@ -15,7 +15,7 @@ document.querySelector('#login-button').addEventListener('click', () => {
     form.append('username', username)
     form.append('password', password)
 
-    fetch('/login', {
+    fetch('/api/login', {
         method: 'POST',
         body: form
     }).then((response) => response.json() ).then(json => {
@@ -57,7 +57,7 @@ document.querySelector('#registrationButton').addEventListener('click', () => {
     form.append('username', username)
     form.append('password', password)
 
-    fetch('/register', {
+    fetch('/api/register', {
         method: 'POST',
         body: form
     }).then((response) => response.json()).then(json => {
@@ -109,7 +109,7 @@ function check_if_available() {
     let registrationUsernameInfo = document.querySelector('#registration-username-info')
     form.append('username', username)
     console.log('this is the form ', form)
-    fetch('/check-if-username-exists', {
+    fetch('/api/check-if-username-exists', {
         method: 'POST',
         body: form
     }).then((response) => response.json() ).then(json => {
