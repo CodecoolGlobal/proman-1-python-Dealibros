@@ -20,15 +20,17 @@ export let boardsManager = {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
+
+            }
                 domManager.addEventListener(
                 `.createColumnButton[data-board-board_id="${board.board_id}"]`,
                 "click",
                 function(){
                     let title = "Unnamed"
-                        createNewColumn(title, board.board_id)
+                    console.log(board.board_id)
+                    createNewColumn(title, board.board_id)
                 }
             )
-            }
         }
     },
 
@@ -74,7 +76,9 @@ async function createNewBoard() {
 
 async function createNewColumn(title, board_id) {
     console.log("I am being clicked")
+    console.log(title)
     await dataHandler.createNewColumn(title, board_id)
+    console.log("done")
     // boardsManager.clearBoards();
     // await boardsManager.loadBoards();
 }

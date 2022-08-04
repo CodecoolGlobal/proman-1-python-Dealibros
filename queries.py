@@ -1,20 +1,20 @@
 import data_manager
 
 
-def get_card_status(status_id):
-    """
-    Find the first status matching the given id
-    :param status_id:
-    :return: str
-    """
-    status = data_manager.execute_select(
-        """
-        SELECT * FROM statuses s
-        WHERE s.id = %(status_id)s
-        ;
-        """, {"status_id": status_id})
-
-    return status
+# def get_card_status(status_id):
+#     """
+#     Find the first status matching the given id
+#     :param status_id:
+#     :return: str
+#     """
+#     status = data_manager.execute_select(
+#         """
+#         SELECT * FROM statuses s
+#         WHERE s.id = %(status_id)s
+#         ;
+#         """, {"status_id": status_id})
+#
+#     return status
 
 
 def get_boards():
@@ -129,14 +129,14 @@ def update_board(board_id, user_id=None):
             """, {"id": board_id})
     return True
 
-
+# Not working yet
 def create_new_column(title, board_id):
     data_manager.execute_query(
         """
         INSERT INTO columns(title, board_id)
         VALUES (%(title)s, %(board_id)s)
         ;
-        """, {"title": title, 'board_id': board_id})
+        """, {"title": title, "board_id": board_id})
 
 
 def get_user_by_username(username):

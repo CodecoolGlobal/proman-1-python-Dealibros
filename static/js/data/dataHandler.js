@@ -2,14 +2,14 @@ export let dataHandler = {
     getBoards: async function () {
         return await apiGet("/api/boards");
     },
-    getBoard: async function (boardId) {
-        // the board is retrieved and then the callback function is called with the board
-
-    },
-    getStatuses: async function () {
-        return await apiGet("/api/columns");
-        // the statuses are retrieved and then the callback function is called with the statuses
-    },
+    // getBoard: async function (boardId) {
+    //     // the board is retrieved and then the callback function is called with the board
+    //
+    // },
+    // getStatuses: async function () {
+    //     return await apiGet("/api/columns");
+    //     // the statuses are retrieved and then the callback function is called with the statuses
+    // },
     editColumnTitle: async function (columnId, columnTitle) {
         // the status is retrieved and then the callback function is called with the status
         return await apiPatch(`/api/columns/${columnId}/edit`, { title: columnTitle });
@@ -37,7 +37,7 @@ export let dataHandler = {
     createNewColumn: async function (title, board_id) {
         console.log(title)
         console.log(board_id)
-        return await apiPost(window.origin + '/api/columns/create_new_column', {title:title, board_id: board_id})
+        return await apiPost(window.origin + '/api/columns/createNewColumn', { title: title, board_id: board_id });
     }
 };
 
@@ -49,7 +49,7 @@ async function apiGet(url) {
         return await response.json();
     }
 }
-
+// 404 Not found error create column link
 async function apiPost(url, payload) {
     try {
         const response = await fetch((url), {
@@ -61,7 +61,9 @@ async function apiPost(url, payload) {
                 'content-type': 'application/json'
             })
         })
+
         if (response.ok) {
+            console.log("here")
             return 'ok'
         }
     }
