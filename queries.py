@@ -17,14 +17,15 @@ def get_card_status(status_id):
     return status
 
 
-def get_boards():
+def get_boards(user_id=None):
     """
     Gather all boards
     :return:
     """
-    return data_manager.execute_select(
-        """
-        SELECT board_id, boards.title,
+    if user_id:
+        return data_manager.execute_select(
+            """
+        SELECT board_id, boards.title, boards.user_id,
         JSON_AGG(column_table) as columns
         FROM boards
         LEFT JOIN (
@@ -35,11 +36,32 @@ def get_boards():
             ORDER BY columns.id
             )
         as column_table on boards.id = column_table.board_id
-        GROUP BY board_id, boards.title
+        WHERE user_id IS NULL OR user_id = %(user_id)s
+        GROUP BY board_id, boards.title, boards.user_id
         ORDER BY board_id
         ;
-        """
-    )
+        """, {'user_id': user_id}
+        )
+    else:
+        return data_manager.execute_select(
+            """
+            SELECT board_id, boards.title, boards.user_id,
+            JSON_AGG(column_table) as columns
+            FROM boards
+            LEFT JOIN (
+                SELECT board_id, columns.title, columns.id, JSON_AGG(cards ORDER BY cards.card_order) as cards
+                FROM columns
+                LEFT JOIN cards ON columns.id = cards.column_id
+                GROUP BY columns.title, columns.id, board_id
+                ORDER BY columns.id
+                )
+            as column_table on boards.id = column_table.board_id
+            WHERE user_id IS NULL
+            GROUP BY board_id, boards.title, boards.user_id
+            ORDER BY board_id
+            ;
+            """
+        )
 
 
 def get_board(board_id):
@@ -212,4 +234,3 @@ def delete_column(column_id, user_id=None):
             ;
             """, {"id": column_id, 'user_id': user_id})
     return True
-

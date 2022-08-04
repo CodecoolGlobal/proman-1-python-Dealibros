@@ -25,7 +25,10 @@ def get_boards():
     """
     All the boards
     """
-    data = queries.get_boards()
+    if 'user' in session.keys():
+        data = queries.get_boards(session.get('user').get('id'))
+    else:
+        data = queries.get_boards()
     return data
 
 
