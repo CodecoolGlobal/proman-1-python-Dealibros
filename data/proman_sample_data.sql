@@ -29,18 +29,18 @@ CREATE TABLE users (
 CREATE TABLE boards (
     id SERIAL PRIMARY KEY NOT NULL,
     title VARCHAR(200) NOT NULL,
-    user_id INTEGER REFERENCES users DEFAULT NULL
+    user_id INTEGER REFERENCES users ON DELETE CASCADE DEFAULT NULL
 );
 CREATE TABLE columns (
     id SERIAL PRIMARY KEY NOT NULL,
     title VARCHAR(200) NOT NULL,
-    board_id INT REFERENCES boards
+    board_id INT REFERENCES boards ON DELETE CASCADE
 );
 CREATE TABLE cards (
     id SERIAL PRIMARY KEY NOT NULL,
     title VARCHAR (200) NOT NULL,
     card_order INTEGER NOT NULL,
-    column_id INTEGER REFERENCES columns
+    column_id INTEGER REFERENCES columns ON DELETE CASCADE
 );
 
 -- ---
@@ -66,9 +66,9 @@ VALUES (2, 'new'),
 
 INSERT INTO cards(title, card_order, column_id)
 VALUES ('card 1', 1, 1),
-         ('card 1', 2, 2),
-        ('card 1', 3, 3),
-         ('card 1', 4, 4);
+         ('card 2', 2, 2),
+        ('card 3', 3, 3),
+         ('card 4', 4, 4);
 
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), "new card 1", 1, 1);
 -- INSERT INTO cards VALUES (nextval('cards_id_seq'), 1, 1, 'new card 2', 2);

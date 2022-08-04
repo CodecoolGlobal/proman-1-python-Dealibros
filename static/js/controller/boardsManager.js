@@ -12,40 +12,27 @@ export let boardsManager = {
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
+                `.toggle-board-button[data-board-id="${board.board_id}"]`,
                 "click",
                 showHideButtonHandler
             );
-            console.log(board.id)
+            for (let column of board.columns) {
+                const columnBuilder = htmlFactory(htmlTemplates.column);
+                const column_element = columnBuilder(column)
+                domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
+                if (column.cards.length > 0) {
+                    cardsManager.loadCards(column.cards);
+                }
+                domManager.addEventListener(
+                    `.createColumnButton[data-board-board_id="${board.board_id}"]`,
+                    "click",
+                    function () {
+                        let title = "Unnamed"
+                        createNewColumn(title, board.board_id)
+                    }
+                )
+            }
         }
-
-        // getStatuses should maybe be called createStatuses?
-        // const columns = await dataHandler.getStatuses()
-
-
-        // for (let column of columns) {
-        //     const columnBuilder = htmlFactory(htmlTemplates.column);
-        //     const content = columnBuilder(column);
-        //     domManager.addChildtoParents(".bodyboard", content);
-        // document.querySelectorAll(".bodyboard").forEach(function(single){
-        //     let bodyBoard = single.parentElement.firstElementChild.getAttribute('data-board-id')
-        //     console.log(bodyBoard)
-        // })
-
-        //insert into both tables board.id and board-statuses here?
-        //Need statuses_id or id, title, board_id
-        //statuses_id or id = column.id
-        //title = column_title
-        //board_id = ?
-
-        // domManager.addEventListener(
-        //     `.createColumnButton[data-board-id="${column.id}]"]`,
-        //     //column.id Needs to be changed for board_id?
-        //     "click",
-        //     //need to create a proper eventHandler here
-        //     createNewColumn()
-
-        // );
     },
 
     clearBoards: function () {
@@ -56,26 +43,27 @@ export let boardsManager = {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
         domManager.addEventListener(".createBoardButton", 'click', async () => {
             await createNewBoard();
-
-            // Should the create column create Event listener be added here instead?
-            // domManager.addEventListener(".createColumnButton", 'click', async () => {
-            //     console.log("First check")
-            //     await createNewColumn();
-            // })
-
         })
         setTimeout(
             () => {
                 const boards = document.querySelectorAll('.board');
-                boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event) ))
-                boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
+                boards.forEach((child) => child.addEventListener('input', (event) => showEditButton(event)))
+                //  boards.forEach((child) => child.addEventListener('input', (event) => saveEdit(event)))
                 // add eventListener to save button here
                 document.querySelectorAll('.edit-board').forEach((child) => child.addEventListener('click', (event) => edit_board_title(event)
-                ))
+                ));
+                document.querySelectorAll('.delete-board').forEach((child) => child.addEventListener('click', (event) => deleteBoard(event)));
+
+                document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
+                document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
+                cardsManager.addEventListeners();
             }, 2000
         )
     }
 };
+
+
+// Create Board - Column - Card
 
 async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
@@ -84,26 +72,20 @@ async function createNewBoard() {
 
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
+    document.querySelector('#root').firstChild.querySelector('.delete-board').addEventListener('click', (event) => deleteBoard(event));
 }
 
-
-// Working on how to add a new column
-function createNewColumn(clickEvent) {
+async function createNewColumn(title, board_id) {
     console.log("I am being clicked")
-    // console.log(boardId)
-    // dataHandler.createNewColumn()
-
-
-    // Create just by inserting by javascript the HTML Through the DOM?
-    // insert into database (2 of them?) the info from this new column created
-    // Take the ids already existing in this table and add plus one
-    //The other existing four columns should be added already in the database for this
-
+    await dataHandler.createNewColumn(title, board_id)
+    // boardsManager.clearBoards();
+    // await boardsManager.loadBoards();
 }
+
 
 function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
+    //cardsManager.loadCards(boardId);
 }
 
 
@@ -116,8 +98,24 @@ function showEditButton(event) {
     button.style.display = "inline";
 }
 
- async function edit_board_title(event) {
+async function edit_board_title(event) {
     const title = event.target.previousElementSibling.innerHTML;
     const boardId = event.target.dataset.boardId;
-    await dataHandler.editBoardTitle(title, boardId)
+    await dataHandler.editBoardTitle(title, boardId);
+    event.target.style.display = 'none';
+}
+
+
+async function deleteBoard(event) {
+    const boardId = event.target.dataset.boardId;
+    await dataHandler.deleteBoard(boardId);
+    document.querySelector('#root').removeChild(event.target.parentElement);
+
+}
+
+async function editColumn(event) {
+    const title = event.target.previousElementSibling.innerHTML;
+    const columnId = event.target.dataset.columnId;
+    await dataHandler.editColumnTitle(columnId, title);
+    event.target.style.display = 'none';
 }

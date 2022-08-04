@@ -10,8 +10,9 @@ export let dataHandler = {
         return await apiGet("/api/columns");
         // the statuses are retrieved and then the callback function is called with the statuses
     },
-    getStatus: async function (statusId) {
+    editColumnTitle: async function (columnId, columnTitle) {
         // the status is retrieved and then the callback function is called with the status
+        return await apiPatch(`/api/columns/${columnId}/edit`, { title: columnTitle });
     },
     getCardsByBoardId: async function (boardId) {
         return await apiGet(`/api/boards/${boardId}/cards/`);
@@ -26,15 +27,21 @@ export let dataHandler = {
     editBoardTitle: async function (boardTitle, boardId) {
         return await apiPatch(`/api/boards/${boardId}/edit`, { title: boardTitle, board_id: boardId });
     },
-    deleteBoard: async function (boardTitle, boardId) {
+    deleteBoard: async function (boardId) {
         return await apiDelete(`/api/boards/${boardId}/delete`, { board_id: boardId });
+    },
+    editCardTitle: async function (cardTitle, cardId) {
+        // creates new card, saves it and calls the callback function with its data
+        return await apiPatch(`/api/cards/${cardId}`, { title: cardTitle })
     },
     createNewCard: async function (cardTitle, boardId, statusId) {
         // creates new card, saves it and calls the callback function with its data
     },
-    //Trial to add a new column inside the two databases?
-    createColumn: async function (board_id, status_id, title) {
-        return await apiPost(window.origin + '/api/columns/createColumn', { board_id: board_id, status_id: status_id, title:title })
+
+    createNewColumn: async function (title, board_id) {
+        console.log(title)
+        console.log(board_id)
+        return await apiPost(window.origin + '/api/columns/create_new_column', { title: title, board_id: board_id })
     }
 };
 
@@ -62,8 +69,7 @@ async function apiPost(url, payload) {
             return 'ok'
         }
     }
-    catch (err)
-    { return err }
+    catch (err) { return err }
 }
 
 async function apiDelete(url) {

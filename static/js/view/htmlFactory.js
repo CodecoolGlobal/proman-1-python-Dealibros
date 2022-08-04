@@ -24,22 +24,29 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <div class="board" data-board-id=${board.id} contentEditable="true">${board.title}</div><div class="positionColumnButton"><button class="createColumnButton" data-board-id="${board.id}">+</button></div>
-                    <button class="edit-board" style="display: none;" data-board-id="${board.id}">Save</button>
-                <div class="bodyboard"></div>
-                <button class="delete-board" data-board-id="${board.id}">Delete</button>
-                <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                <div class="board" data-board-id=${board.board_id} contentEditable="true">${board.title}</div>
+                <button class="edit-board" style="display: none;" data-board-id="${board.board_id}">Save</button>
+                <div class="positionColumnButton"><button class="createColumnButton" data-board-board_id="${board.board_id}">+</button></div>
+                <div class="bodyboard" data-board-id="${board.board_id}"></div>
+                <button class="delete-board" data-board-id="${board.board_id}">Delete</button>
+                <button class="toggle-board-button" data-board-id="${board.board_id}">Show Cards</button>
             </div>`;
 }
 
 function cardBuilder(card) {
-    return `<div class="card" data-card-id="${card.id}">${card.title}</div>`;
+    return `<div class="card-container" draggable="true">
+                <div class="card" data-card-id="${card.id}" contentEditable="true">${card.title}</div>
+                <button class="edit-card" style="display: none;" data-card-id="${card.id}">Save</button>
+            </div>`;
 }
 
 function columnBuilder(column) {
-    return `<div class="column" data-column-id="${column.id}"><h4 class="columnTitle">${column.title}<hr/></h4></div>`
+    return `<div class="column" data-column-id="${column.id}">
+                <h4 class="columnTitle" contentEditable="true">${column.title}<hr/></h4>
+                <button class="edit-column" style="display: none;" data-column-id="${column.id}">Save</button>
+                <button style="overflow-inline: auto;" class="submit">X</button>
+                <div class="cards-container" data-column-id="${column.id}"></div>
+                
+            </div>`;
 }
-
-
-
 
