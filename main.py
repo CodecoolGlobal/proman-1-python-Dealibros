@@ -122,10 +122,9 @@ def delete_board(board_id):
     board = queries.get_board(board_id)
     if board.get('user_id'):
         if 'user' in session.keys() and session.get('user').get('id') == board.get('user_id'):
-            deleted_board = queries.delete_board(board_id)
+            deleted_board = queries.delete_board(board_id, session.get('user').get('id'))
     else:
-        deleted_board = queries.delete_board(
-            board.get('title'), board_id)
+        deleted_board = queries.delete_board(board_id)
         flash('Board successfully deleted')
     if deleted_board:
         response = make_response(jsonify({"message": "ok"}), 200)

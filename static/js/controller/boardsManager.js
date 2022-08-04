@@ -112,7 +112,9 @@ async function deleteBoard(event) {
     const boardId = event.target.dataset.boardId;
     await dataHandler.deleteBoard(boardId);
     document.querySelector('#root').removeChild(event.target.parentElement);
-
+    // boardsManager.clearBoards();
+    // await boardsManager.loadBoards();
+    // boardsManager.addEventListeners();
 }
 
 async function editColumn(event) {
