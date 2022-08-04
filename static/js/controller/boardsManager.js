@@ -17,12 +17,20 @@ export let boardsManager = {
                 showHideButtonHandler
             );
             for (let column of board.columns) {
+                if (column) {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
                 if (column.cards.length > 0) {
                     cardsManager.loadCards(column.cards);
-                }
+                }}
+                setTimeout(domManager.addEventListener(
+                    `.createColumnButton[data-board-board_id="${board.board_id}"]`,
+                    "click",
+                    function () {
+                        let title = "Unnamed"
+                        createNewColumn(title, board.board_id)
+                }),500)
 
             }
             domManager.addEventListener(
@@ -39,6 +47,12 @@ export let boardsManager = {
     clearBoards: function () {
         let root = document.querySelector('#root');
         [...root.children].forEach((child) => root.removeChild(child));
+        let clone = root.cloneNode(true);
+        root.parentNode.replaceChild(clone, root);
+        let button = document.querySelector('.createBoardButton');
+        let buttonClone = button.cloneNode(true);
+        button.parentNode.replaceChild(buttonClone, button);
+
     },
     addEventListeners: function () {
         domManager.addEventListener('.createBoard', 'click', showBoardForm);
@@ -58,8 +72,9 @@ export let boardsManager = {
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
                 cardsManager.addEventListeners();
+                document.querySelectorAll('.delete-column').forEach((child) => child.addEventListener('click', (event) => deleteColumn(event)));
                 document.querySelectorAll('.add-card').forEach((child) => child.addEventListener('click', (event) => cardsManager.addCard(event)));
-            }, 2000
+            }, 500
         )
     }
 };
@@ -112,8 +127,17 @@ async function deleteBoard(event) {
     const boardId = event.target.dataset.boardId;
     await dataHandler.deleteBoard(boardId);
     document.querySelector('#root').removeChild(event.target.parentElement);
-
 }
+
+
+async function deleteColumn(event) {
+    const columnId = event.target.dataset.columnId;
+    await dataHandler.deleteColumn(columnId);
+    boardsManager.clearBoards();
+    await boardsManager.loadBoards();
+    boardsManager.addEventListeners()
+}
+
 
 async function editColumn(event) {
     const title = event.target.previousElementSibling.innerHTML;

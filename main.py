@@ -122,10 +122,9 @@ def delete_board(board_id):
     board = queries.get_board(board_id)
     if board.get('user_id'):
         if 'user' in session.keys() and session.get('user').get('id') == board.get('user_id'):
-            deleted_board = queries.delete_board(board_id)
+            deleted_board = queries.delete_board(board_id, session.get('user').get('id'))
     else:
-        deleted_board = queries.delete_board(
-            board.get('title'), board_id)
+        deleted_board = queries.delete_board(board_id)
         flash('Board successfully deleted')
     if deleted_board:
         response = make_response(jsonify({"message": "ok"}), 200)
@@ -134,24 +133,14 @@ def delete_board(board_id):
     return response
 
 
-"""@app.route('/api/columns/<int:column_id>/delete', methods=['DELETE'])
+@app.route('/api/columns/<int:column_id>/delete', methods=['DELETE'])
 def delete_column(column_id):
-    column = request.get_column_id(column_id)
-    if column.get('user_id'):
-        if 'user' in session.keys() and session.get('user').get('id') == column.get('user_id'):
-            deleted_column = queries.delete_column(
-                column.get('title'), column_id)
-            flash('Column successfully deleted')
-    else:
-        deleted_column = queries.delete_column(
-            column.get('title'), column_id)
-        flash('Column successfully deleted')
-
+    deleted_column = queries.delete_column(column_id)
     if deleted_column:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
-    return response"""
+    return response
 
 
 @app.route("/api/columns/")
@@ -163,7 +152,7 @@ def get_columns():
     return queries.get_columns()
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/api/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -183,7 +172,7 @@ def login():
     return redirect('/')
 
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/api/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -192,7 +181,7 @@ def register():
         return jsonify(True)
 
 
-@app.route('/check-if-username-exists', methods=['GET', 'POST'])
+@app.route('/api/check-if-username-exists', methods=['GET', 'POST'])
 def check_if_username_exists():
     if request.method == 'POST':
         username = request.form.get('username')
