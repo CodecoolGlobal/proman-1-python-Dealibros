@@ -39,6 +39,9 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
         return await apiPatch(`/api/cards/${cardId}`, { title: cardTitle })
     },
+    editCardColumn: async function (cardId, columnId) {
+        return await apiPatch(`/api/cards/${cardId}/edit_column`, {columnId : columnId })
+    },
     createNewCard: async function (cardTitle, columnId) {
         // creates new card, saves it and calls the callback function with its data
         return await apiPost(`/api/columns/${columnId}/create_new_card`, { title: cardTitle })
@@ -47,7 +50,6 @@ export let dataHandler = {
     createNewColumn: async function (title, board_id) {
         console.log(title)
         console.log(board_id)
-
         return await apiPost(window.origin + '/api/columns/createNewColumn', { title: title, board_id: board_id });
 
     }

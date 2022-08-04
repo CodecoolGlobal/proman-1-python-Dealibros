@@ -117,6 +117,17 @@ def edit_card_title(card_id):
     return response
 
 
+@app.route('/api/cards/<int:card_id>/edit_column', methods=['PATCH'])
+def edit_card_column(card_id):
+    card = request.get_json()
+    update_card = queries.edit_card_column_id(card_id, card.get('columnId'))
+    if update_card:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
 @app.route('/api/boards/<int:board_id>/delete', methods=['DELETE'])
 def delete_board(board_id):
     board = queries.get_board(board_id)

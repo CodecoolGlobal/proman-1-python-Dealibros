@@ -74,6 +74,12 @@ export let boardsManager = {
                 cardsManager.addEventListeners();
                 document.querySelectorAll('.delete-column').forEach((child) => child.addEventListener('click', (event) => deleteColumn(event)));
                 document.querySelectorAll('.add-card').forEach((child) => child.addEventListener('click', (event) => cardsManager.addCard(event)));
+
+                // drag and drop events
+                document.querySelectorAll('.cards-container').forEach((child)=> child.addEventListener('dragover', (event) => handleDragOver(event)));
+                document.querySelectorAll('.cards-container').forEach((child)=> child.addEventListener('drop', (event) => handleDrop(event)));
+                // document.querySelectorAll('.cards-container').forEach((child)=> child.addEventListener('dragover', (event) => handleDragOver(event)));
+
             }, 500
         )
     }
@@ -144,4 +150,27 @@ async function editColumn(event) {
     const columnId = event.target.dataset.columnId;
     await dataHandler.editColumnTitle(columnId, title);
     event.target.style.display = 'none';
+}
+
+
+// drag and drop events
+
+
+function handleDragOver(event) {
+    event.preventDefault();
+}
+
+function handleDragEnter(e) {}
+
+function handleDragLeave(e) {}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const dropzone = e.currentTarget;
+    const card = cardsManager.cardDragged;
+    if (card) {
+        cardsManager.editCardColumn(card.dataset.cardId, dropzone.dataset.columnId);
+        dropzone.appendChild(card);
+    }
+
 }

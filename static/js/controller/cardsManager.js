@@ -4,6 +4,7 @@ import { domManager } from "../view/domManager.js";
 import { boardsManager } from "./boardsManager.js";
 
 export let cardsManager = {
+    cardDragged: null,
     loadCards: async function (cards) {
         //   const cards = await dataHandler.getCardsByBoardId(boardId);
         for (let card of cards) {
@@ -18,6 +19,10 @@ export let cardsManager = {
         document.querySelectorAll('.card').forEach((child) => deleteButtonHandler);
         document.querySelectorAll('.edit-card').forEach((child) => child.addEventListener('click', (event) => editCardTitle(event)));
         document.querySelectorAll('.delete-card').forEach((child) => child.addEventListener('click', (event) => deleteCard(event)));
+        // drag events 
+        document.querySelectorAll('.card-container').forEach((child)=> child.addEventListener('dragstart', (event) => cardDragStart(event)));
+        document.querySelectorAll('.card-container').forEach((child)=> child.addEventListener('dragend', (event) => cardDragEnd(event)));
+
     },
     addCard: async function (event) {
         let columnId = event.target.dataset.columnId;
@@ -25,6 +30,9 @@ export let cardsManager = {
         boardsManager.clearBoards();
         await boardsManager.loadBoards();
         boardsManager.addEventListeners();
+    },
+    editCardColumn: async function (cardId, columnId) {
+        dataHandler.editCardColumn(cardId, columnId);
     }
 };
 
@@ -43,4 +51,13 @@ async function deleteCard(event) {
     const cardId = event.target.dataset.cardId;
     await dataHandler.deleteCard(cardId);
     event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+}
+
+
+function cardDragStart(event) {
+    cardsManager.cardDragged = event.target;
+}
+
+function cardDragEnd(event) {
+    cardsManager.cardDragged = null;
 }

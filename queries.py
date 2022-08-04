@@ -1,22 +1,6 @@
 import data_manager
 
 
-# def get_card_status(status_id):
-#     """
-#     Find the first status matching the given id
-#     :param status_id:
-#     :return: str
-#     """
-#     status = data_manager.execute_select(
-#         """
-#         SELECT * FROM statuses s
-#         WHERE s.id = %(status_id)s
-#         ;
-#         """, {"status_id": status_id})
-#
-#     return status
-
-
 def get_boards(user_id=None):
     """
     Gather all boards
@@ -233,6 +217,15 @@ def edit_card_title(card_id, title):
         SET title = %(title)s
         WHERE id = %(card_id)s
         """, {"card_id": card_id, "title": title})
+    return True
+
+
+def edit_card_column_id(card_id, column_id):
+    data_manager.execute_query("""
+        UPDATE cards
+        SET column_id = %(column_id)s
+        WHERE id = %(card_id)s
+        """, {"card_id": card_id, "column_id": column_id})
     return True
 
 
