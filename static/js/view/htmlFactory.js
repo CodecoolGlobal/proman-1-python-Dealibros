@@ -42,7 +42,7 @@ function cardBuilder(card) {
 
 function columnBuilder(column) {
     return `<div class="column" data-column-id="${column.id}">
-                <h4 class="columnTitle" contentEditable="true">${column.title} <button class="delete-column-button" style="overflow-inline: auto" class="submit">x</button><hr/></h4>
+                <h4 class="columnTitle" contentEditable="true">${column.title} <button class="delete-column-button" style="overflow-inline: auto" class="submit">x</button><hr class="hr"/></h4>
                 <button class="edit-column" style="display: none;" data-column-id="${column.id}">Save</button>
                 <div class="cards-container" data-column-id="${column.id}"></div>
                 

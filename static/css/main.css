@@ -127,7 +127,8 @@ button{
 .columnTitle {
     background-color: #afbb96;
     font-size: 1.2rem;
-    padding: 0.9rem;
+    padding-top: 0.9rem;
+    padding-bottom: 0.2rem;
     /*display: inline-block;*/
 }
 
@@ -159,4 +160,6 @@ button{
     border-radius: 0.4rem;
 }
 
-
+.hr {
+    margin-bottom: 0.6rem;!important;
+}
