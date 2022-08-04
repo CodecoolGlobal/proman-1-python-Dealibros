@@ -152,6 +152,8 @@ def update_board(board_id, user_id=None):
     return True
 
 # Not working yet
+
+
 def create_new_column(title, board_id):
     data_manager.execute_query(
         """
@@ -159,6 +161,30 @@ def create_new_column(title, board_id):
         VALUES (%(title)s, %(board_id)s)
         ;
         """, {"title": title, "board_id": board_id})
+    return True
+
+
+def get_max_card_order_for_column(column_id):
+    max_order = data_manager.execute_select(
+        """
+        SELECT MAX(card_order)
+        FROM cards
+        WHERE column_id = %(column_id)s
+        ;
+        """, {'column_id': column_id}, False)
+    return max_order
+
+
+def create_new_card(title, column_id):
+    max_card_order = get_max_card_order_for_column(column_id).get('max')
+    if not max_card_order:
+        max_card_order = 1
+    data_manager.execute_query(
+        """
+        INSERT INTO cards(title, column_id, card_order)
+        VALUES (%(title)s, %(column_id)s, %(card_order)s)
+        ;
+        """, {"title": title, 'column_id': column_id, 'card_order': max_card_order+1})
     return True
 
 

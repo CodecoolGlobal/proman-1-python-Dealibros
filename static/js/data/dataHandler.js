@@ -34,8 +34,9 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
         return await apiPatch(`/api/cards/${cardId}`, { title: cardTitle })
     },
-    createNewCard: async function (cardTitle, boardId, statusId) {
+    createNewCard: async function (cardTitle, columnId) {
         // creates new card, saves it and calls the callback function with its data
+        return await apiPost(`/api/columns/${columnId}/create_new_card`, { title: cardTitle })
     },
 
     createNewColumn: async function (title, board_id) {
