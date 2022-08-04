@@ -20,17 +20,19 @@ export let boardsManager = {
                 const columnBuilder = htmlFactory(htmlTemplates.column);
                 const column_element = columnBuilder(column)
                 domManager.addChild(`.bodyboard[data-board-id="${board.board_id}"]`, column_element);
+                if (column.cards.length > 0) {
+                    cardsManager.loadCards(column.cards);
+                }
 
             }
-                domManager.addEventListener(
-                `.createColumnButton[data-board-board_id="${board.board_id}"]`,
-                "click",
-                function(){
-                    let title = "Unnamed"
-                    console.log(board.board_id)
-                    createNewColumn(title, board.board_id)
-                }
-            )
+            domManager.addEventListener(
+            `.createColumnButton[data-board-id="${board.board_id}"]`,
+            "click",
+            function () {
+            let title = "Unnamed"
+            createNewColumn(title, board.board_id)
+                    }
+                )
         }
     },
 
@@ -55,7 +57,8 @@ export let boardsManager = {
 
                 document.querySelectorAll('.column').forEach((child) => child.addEventListener('input', (event) => showEditButton(event)));
                 document.querySelectorAll('.edit-column').forEach((child) => child.addEventListener('click', (event) => editColumn(event)));
-
+                cardsManager.addEventListeners();
+                document.querySelectorAll('.add-card').forEach((child) => child.addEventListener('click', (event) => cardsManager.addCard(event)));
             }, 2000
         )
     }
@@ -76,9 +79,7 @@ async function createNewBoard() {
 
 async function createNewColumn(title, board_id) {
     console.log("I am being clicked")
-    console.log(title)
     await dataHandler.createNewColumn(title, board_id)
-    console.log("done")
     boardsManager.clearBoards();
     await boardsManager.loadBoards();
 }

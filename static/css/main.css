@@ -33,8 +33,6 @@ body {
     height: auto;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-
-
 }
 
 .bodyProject::-webkit-scrollbar {
@@ -123,13 +121,14 @@ button{
   width: 50%;
   margin: 0.8rem;
   border-radius: 0.5rem;
+
 }
 
 .columnTitle {
     background-color: #afbb96;
     font-size: 1.2rem;
     padding: 0.9rem;
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 .positionColumnButton {
@@ -150,6 +149,14 @@ button{
     margin-bottom: 0.7rem;
 }
 
+.delete-column-button {
+    background: #cbb2b2;
+    color: #fff;
+    border: none;
+    font-size: 17px;
+    font-family: sans-serif;
+    padding: 1px 3px;
+    border-radius: 0.4rem;
+}
 
 
-AT10FB

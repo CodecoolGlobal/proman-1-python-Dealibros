@@ -39,9 +39,6 @@
     {% with messages = get_flashed_messages() %} {% if messages %} {% for
     message in messages %} {{ message }} {% endfor %} {% endif %} {% endwith %}
     <h1 class="titleProject">ProMan</h1>
-    {#
-    <div class="root-container">
-      #}
       <div class="bodyProject">
         <div class="boardForm">
           <button class="createBoard">Create New Board</button>
@@ -60,8 +57,5 @@
         </div>
         <div id="root"></div>
       </div>
-      {#
-    </div>
-    #}
   </body>
 </html>
