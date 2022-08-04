@@ -16,7 +16,11 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
+    try:
+        username = session['user']['username']
+    except Exception:
+        username = False
+    return render_template('index.html', username=username)
 
 
 @app.route("/api/boards")
@@ -109,8 +113,9 @@ def delete_board(board_id):
         if 'user' in session.keys() and session.get('user').get('id') == board.get('user_id'):
             deleted_board = queries.delete_board(board_id)
     else:
-        deleted_board = queries.delete_board(board_id)
-
+        deleted_board = queries.delete_board(
+            board.get('title'), board_id)
+        flash('Board successfully deleted')
     if deleted_board:
         response = make_response(jsonify({"message": "ok"}), 200)
     else:
@@ -153,17 +158,18 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         user = queries.get_user_by_username(username)
-        if user:
-            if check_password_hash(user['password'], password):
-                session['user'] = user
-                return redirect(url_for('index'))
+        while True:
+            if user:
+                if check_password_hash(user['password'], password):
+                    session['user'] = user
+                    return jsonify(True)
+                else:
+                    flash('Invalid username or password')
+                    return jsonify('Invalid username or password')
             else:
-                flash('Invalid username or password')
-                return redirect(url_for('login'))
-        else:
-            flash('there is no user with that username')
-            return redirect(url_for('login'))
-    return render_template('login.html')
+                flash('there is no user with that username')
+                return jsonify('there is no user with that username')
+    return redirect('/')
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -171,25 +177,29 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        queries.create_user(username, generate_password_hash(password))
+        return jsonify(True)
+
+
+@app.route('/check-if-username-exists', methods=['GET', 'POST'])
+def check_if_username_exists():
+    if request.method == 'POST':
+        username = request.form.get('username')
         user = queries.get_user_by_username(username)
         if user:
-            flash('Username is already taken!')
+            return {'exists': True}
         else:
-            queries.create_user(username, generate_password_hash(password))
-            flash('Your registration was successful, please log in.')
-            return redirect(url_for('login'))
-    return render_template('login.html')
+            return {'exists': False}
 
 
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    session.clear()
     return redirect(url_for('index'))
 
 
 def main():
     app.run(debug=True)
-    # Serving the favicon
     with app.app_context():
         app.add_url_rule(
             '/favicon.ico', redirect_to=url_for('static', filename='favicon/favicon.ico'))
