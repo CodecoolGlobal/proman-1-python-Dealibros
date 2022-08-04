@@ -143,6 +143,16 @@ def delete_column(column_id):
     return response
 
 
+@app.route('/api/cards/<int:card_id>/delete', methods=['DELETE'])
+def delete_card(card_id):
+    deleted_column = queries.delete_card(card_id)
+    if deleted_column:
+        response = make_response(jsonify({"message": "ok"}), 200)
+    else:
+        response = make_response(jsonify({"message": "internal error"}), 500)
+    return response
+
+
 @app.route("/api/columns/")
 @json_response
 def get_columns():
