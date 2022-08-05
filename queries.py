@@ -98,7 +98,7 @@ def create_new_board(title, user_id=None):
             ;
             """, {"title": title})
     board = get_recent_board()
-    create_main_columns(board.get('board_id'))
+    create_main_columns_by_board_id(board.get('board_id'))
     return True
 
 
@@ -143,16 +143,7 @@ def get_recent_column():
         """, {}, False)
 
 
-def get_column_by_id(column_id):
-    return data_manager.execute_query("""
-        SELECT * FROM columns c
-        WHERE c.id = %(column_id)s
-        ;
-        """, {"column_id": column_id})
-    return True
-
-
-def create_main_columns(board_id):
+def create_main_columns_by_board_id(board_id):
     data_manager.execute_query(
         """
             INSERT INTO columns(title, board_id)

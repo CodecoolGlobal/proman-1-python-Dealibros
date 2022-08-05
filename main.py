@@ -134,13 +134,6 @@ def get_recent_card():
     return column
 
 
-@app.route("/api/cards/<int:column_id>/title")
-@json_response
-def get_card_by_column_id_and_title(column_id, title):
-    data = queries.get_card_by_column_id_and_title(column_id, title)
-    return data
-
-
 @app.route('/api/cards/<int:column_id>', methods=['POST'])
 def create_new_card(column_id):
     card = request.get_json()
