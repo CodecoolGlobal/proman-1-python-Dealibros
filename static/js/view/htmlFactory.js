@@ -6,8 +6,8 @@ export const htmlTemplates = {
 
 export const builderFunctions = {
     [htmlTemplates.board]: boardBuilder,
-    [htmlTemplates.card]: cardBuilder,
-    [htmlTemplates.column]: columnBuilder
+    [htmlTemplates.column]: columnBuilder,
+    [htmlTemplates.card]: cardBuilder
 };
 
 export function htmlFactory(template) {
@@ -26,17 +26,9 @@ function boardBuilder(board) {
     return `<div class="board-container">
                 <div class="board" data-board-id=${board.board_id} contentEditable="true">${board.title}</div>
                 <button class="edit-board" style="display: none;" data-board-id="${board.board_id}">Save</button>
-                <div class="positionColumnButton"><button class="createColumnButton" data-board-id="${board.board_id}">+</button></div>
+                <div class="positionColumnButton"><button class="create-column" data-board-id="${board.board_id}">+</button></div>
                 <div class="bodyboard" data-board-id="${board.board_id}"></div>
                 <button class="delete-board" data-board-id="${board.board_id}">Delete</button>
-            </div>`;
-}
-
-function cardBuilder(card) {
-    return `<div class="card-container" draggable="true" data-card-id="${card.id}">
-                <div class="card" data-card-id="${card.id}" contentEditable="true">${card.title}</div>
-                <button class="edit-card" style="display: none;" data-card-id="${card.id}">Save</button>
-                <button class="delete-card" data-card-id="${card.id}">x</button>
             </div>`;
 }
 
@@ -49,6 +41,14 @@ function columnBuilder(column) {
                 <button class="add-card" data-column-id="${column.id}">+</button>
                 </div>
                 <div class="cards-container" data-column-id="${column.id}"></div>
+            </div>`;
+}
+
+function cardBuilder(card) {
+    return `<div class="card-container" draggable="true" data-card-id="${card.id}">
+                <div class="card" data-card-id="${card.id}" contentEditable="true">${card.title}</div>
+                <button class="edit-card" style="display: none;" data-card-id="${card.id}">Save</button>
+                <button class="delete-card" data-card-id="${card.id}">x</button>
             </div>`;
 }
 

@@ -8,6 +8,15 @@ export let domManager = {
         }
     },
 
+    addChildAsFirst(parentIdentifier, childContent) {
+        const parent = document.querySelector(parentIdentifier);
+        if (parent) {
+            parent.insertAdjacentHTML("afterbegin", childContent);
+        } else {
+            console.error("could not find such html element: " + parentIdentifier);
+        }
+    },
+
     addChildtoParents(parentIdentifier, childContent) {
         const parents = document.querySelectorAll(parentIdentifier);
         for (let parent of parents)

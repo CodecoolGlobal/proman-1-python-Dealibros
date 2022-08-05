@@ -5,39 +5,38 @@ import { boardsManager } from "./boardsManager.js";
 
 export let cardsManager = {
     cardDragged: null,
-    loadCards: async function (cards) {
-        //   const cards = await dataHandler.getCardsByBoardId(boardId);
+    loadCards: async function (cards, columnId) {
         for (let card of cards) {
             if (card) {
-                const cardBuilder = htmlFactory(htmlTemplates.card);
-                const content = cardBuilder(card);
-                domManager.addChild(`.cards-container[data-column-id="${card.column_id}"]`, content);
+                this.createCardElement(card, columnId);
             }
         }
     },
-    addEventListeners: async function () {
-        document.querySelectorAll('.card').forEach((child) => deleteButtonHandler);
-        document.querySelectorAll('.edit-card').forEach((child) => child.addEventListener('click', (event) => editCardTitle(event)));
-        document.querySelectorAll('.delete-card').forEach((child) => child.addEventListener('click', (event) => deleteCard(event)));
-        // drag events 
-        document.querySelectorAll('.card-container').forEach((child)=> child.addEventListener('dragstart', (event) => cardDragStart(event)));
-        document.querySelectorAll('.card-container').forEach((child)=> child.addEventListener('dragend', (event) => cardDragEnd(event)));
 
+    createCardElement: async function (card) {
+        const cardBuilder = htmlFactory(htmlTemplates.card);
+        const content = cardBuilder(card);
+        domManager.addChild(`.cards-container[data-column-id="${card.column_id}"]`, content);
+        // event listeners
+        domManager.addEventListener(`.card[data-card-id="${card.id}"]`, 'input', (event) => boardsManager.showEditButton(event));
+        domManager.addEventListener(`.edit-card[data-card-id="${card.id}"]`, 'click', (event) => editCardTitle(event));
+        domManager.addEventListener(`.delete-card[data-card-id="${card.id}"]`, 'click', (event) => deleteCard(event));
+        // drag events 
+        domManager.addEventListener(`.card-container[data-card-id="${card.id}"]`, 'dragstart', (event) => cardDragStart(event));
+        domManager.addEventListener(`.card-container[data-card-id="${card.id}"]`, 'dragend', (event) => cardDragEnd(event));
     },
+
     addCard: async function (event) {
         let columnId = event.target.dataset.columnId;
         await dataHandler.createNewCard('unnamed', columnId);
-        boardsManager.clearBoards();
-        await boardsManager.loadBoards();
-        boardsManager.addEventListeners();
+        const newCard = await dataHandler.getRecentCard();
+        this.createCardElement(newCard);
     },
+
     editCardColumn: async function (cardId, columnId) {
         dataHandler.editCardColumn(cardId, columnId);
     }
 };
-
-function deleteButtonHandler(clickEvent) {
-}
 
 
 async function editCardTitle(event) {

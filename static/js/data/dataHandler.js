@@ -1,57 +1,48 @@
 export let dataHandler = {
+    // boards
     getBoards: async function () {
         return await apiGet("/api/boards");
     },
-    // getBoard: async function (boardId) {
-    //     // the board is retrieved and then the callback function is called with the board
-    //
-    // },
-    // getStatuses: async function () {
-    //     return await apiGet("/api/columns");
-    //     // the statuses are retrieved and then the callback function is called with the statuses
-    // },
-    editColumnTitle: async function (columnId, columnTitle) {
-        // the status is retrieved and then the callback function is called with the status
-        return await apiPatch(`/api/columns/${columnId}/edit`, { title: columnTitle });
-    },
-    getCardsByBoardId: async function (boardId) {
-        return await apiGet(`/api/boards/${boardId}/cards/`);
-    },
-    deleteCard: async function (cardId) {
-        // the card is retrieved and then the callback function is called with the card
-        return await apiDelete(`/api/cards/${cardId}/delete`);
+    getRecentBoard: async function () {
+        return await apiGet(`/api/boards/recent`);
     },
     createNewBoard: async function (boardTitle) {
-        // creates new board, saves it and calls the callback function with its data
-        return await apiPost(window.origin + '/api/boards/createBoard', { title: boardTitle });
+        return await apiPost('/api/boards', { title: boardTitle });
     },
     editBoardTitle: async function (boardTitle, boardId) {
-        return await apiPatch(`/api/boards/${boardId}/edit`, { title: boardTitle, board_id: boardId });
+        return await apiPut(`/api/boards/${boardId}`, { title: boardTitle, boardId: boardId });
     },
     deleteBoard: async function (boardId) {
-        return await apiDelete(`/api/boards/${boardId}/delete`);
+        return await apiDelete(`/api/boards/${boardId}`);
+    },
+    // columns
+    getRecentColumn: async function () {
+        return await apiGet(`/api/columns/recent`);
+    },
+    createNewColumn: async function (title, board_id) {
+        return await apiPost('/api/columns', { title: title, board_id: board_id });
+    },
+    editColumnTitle: async function (columnId, columnTitle) {
+        return await apiPut(`/api/columns/${columnId}`, { title: columnTitle });
     },
     deleteColumn: async function (columnId) {
-        console.log(columnId)
-        return await apiDelete(`/api/columns/${columnId}/delete`, { columnId: columnId});
+        return await apiDelete(`/api/columns/${columnId}`, { columnId: columnId });
     },
-    editCardTitle: async function (cardTitle, cardId) {
-        // creates new card, saves it and calls the callback function with its data
-        return await apiPatch(`/api/cards/${cardId}`, { title: cardTitle })
-    },
-    editCardColumn: async function (cardId, columnId) {
-        return await apiPatch(`/api/cards/${cardId}/edit_column`, {columnId : columnId })
+    // cards
+    getRecentCard: async function () {
+        return await apiGet(`/api/cards/recent`);
     },
     createNewCard: async function (cardTitle, columnId) {
-        // creates new card, saves it and calls the callback function with its data
-        return await apiPost(`/api/columns/${columnId}/create_new_card`, { title: cardTitle })
+        return await apiPost(`/api/cards/${columnId}`, { title: cardTitle })
     },
-
-    createNewColumn: async function (title, board_id) {
-        console.log(title)
-        console.log(board_id)
-        return await apiPost(window.origin + '/api/columns/createNewColumn', { title: title, board_id: board_id });
-
+    editCardTitle: async function (cardTitle, cardId) {
+        return await apiPut(`/api/cards/${cardId}`, { title: cardTitle })
+    },
+    editCardColumn: async function (cardId, columnId) {
+        return await apiPatch(`/api/cards/${cardId}`, { columnId: columnId })
+    },
+    deleteCard: async function (cardId) {
+        return await apiDelete(`/api/cards/${cardId}`);
     }
 };
 
@@ -63,7 +54,6 @@ async function apiGet(url) {
         return await response.json();
     }
 }
-// 404 Not found error create column link
 async function apiPost(url, payload) {
     try {
         const response = await fetch((url), {
@@ -77,7 +67,6 @@ async function apiPost(url, payload) {
         })
 
         if (response.ok) {
-            console.log("here")
             return 'ok'
         }
     }
@@ -92,7 +81,7 @@ async function apiDelete(url) {
         .catch((err) => { return err })
 }
 
-async function apiPut(url) {
+async function apiPut(url, payload) {
     fetch((url), {
         method: 'PUT',
         credentials: 'include',

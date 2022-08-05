@@ -1,5 +1,7 @@
 import data_manager
 
+# boards
+
 
 def get_boards(user_id=None):
     """
@@ -9,7 +11,7 @@ def get_boards(user_id=None):
     if user_id:
         return data_manager.execute_select(
             """
-        SELECT board_id, boards.title, boards.user_id,
+        SELECT boards.id as board_id, boards.title, boards.user_id,
         JSON_AGG(column_table) as columns
         FROM boards
         LEFT JOIN (
@@ -21,15 +23,15 @@ def get_boards(user_id=None):
             )
         as column_table on boards.id = column_table.board_id
         WHERE user_id IS NULL OR user_id = %(user_id)s
-        GROUP BY board_id, boards.title, boards.user_id
-        ORDER BY board_id
+        GROUP BY boards.id, boards.title, boards.user_id
+        ORDER BY boards.id
         ;
         """, {'user_id': user_id}
         )
     else:
         return data_manager.execute_select(
             """
-            SELECT board_id, boards.title, boards.user_id,
+            SELECT boards.id as board_id, boards.title, boards.user_id,
             JSON_AGG(column_table) as columns
             FROM boards
             LEFT JOIN (
@@ -41,14 +43,14 @@ def get_boards(user_id=None):
                 )
             as column_table on boards.id = column_table.board_id
             WHERE user_id IS NULL
-            GROUP BY board_id, boards.title, boards.user_id
-            ORDER BY board_id
+            GROUP BY boards.id, boards.title, boards.user_id
+            ORDER BY boards.id
             ;
             """
         )
 
 
-def get_board(board_id):
+def get_board_by_id(board_id):
     return data_manager.execute_select(
         """
         SELECT *
@@ -59,26 +61,25 @@ def get_board(board_id):
         {'board_id': board_id}, False)
 
 
-def create_main_columns(board_id):
-    data_manager.execute_query(
+def get_recent_board(user_id=None):
+    return data_manager.execute_select(
         """
-            INSERT INTO columns(title, board_id)
-            VALUES ('new', %(board_id)s),
-                    ('in progress', %(board_id)s),
-                    ('testing', %(board_id)s),
-                    ('done', %(board_id)s)
+            SELECT boards.id as board_id, boards.title, boards.user_id,
+            JSON_AGG(column_table) as columns
+            FROM boards
+            LEFT JOIN (
+                SELECT board_id, columns.title, columns.id, JSON_AGG(cards ORDER BY cards.card_order) as cards
+                FROM columns
+                LEFT JOIN cards ON columns.id = cards.column_id
+                GROUP BY columns.title, columns.id, board_id
+                ORDER BY columns.id
+                )
+            as column_table on boards.id = column_table.board_id
+            GROUP BY boards.id, boards.title, boards.user_id
+            ORDER BY boards.id DESC
+            LIMIT 1
             ;
-            """, {'board_id': board_id})
-
-
-def get_board_by_title(title):
-    board = data_manager.execute_select(
-        """
-        SELECT * FROM boards
-        WHERE title = %(title)s
-        ;
-        """, {"title": title}, False)
-    return board
+            """, {}, False)
 
 
 def create_new_board(title, user_id=None):
@@ -96,8 +97,8 @@ def create_new_board(title, user_id=None):
             VALUES (%(title)s)
             ;
             """, {"title": title})
-    board = get_board_by_title(title)
-    create_main_columns(board.get('id'))
+    board = get_recent_board()
+    create_main_columns(board.get('board_id'))
     return True
 
 
@@ -118,24 +119,49 @@ def delete_board(board_id, user_id=None):
     return True
 
 
-def update_board(board_id, user_id=None):
-    if user_id:
-        data_manager.execute_query(
-            """
-            UPDATE boards
-            SET title = %(new_title)s WHERE id = %(id)s AND user_id = %(user_id)s
-            ;
-            """, {"id": board_id, "user_id": user_id})
-    else:
-        data_manager.execute_query(
-            """
-            UPDATE boards
-            SET title = %(new_title)s WHERE id = %(id)s
-            ;
-            """, {"id": board_id})
+def edit_board_title(board_id, title):
+    data_manager.execute_query("""
+        UPDATE boards
+        SET title = %(title)s
+        WHERE id = %(board_id)s
+        """, {"board_id": board_id, "title": title})
     return True
 
-# Not working yet
+
+# columns
+def get_recent_column():
+    return data_manager.execute_select(
+        """
+            SELECT board_id, columns.title, columns.id,
+            JSON_AGG(cards ORDER BY cards.card_order) as cards
+            FROM columns
+            LEFT JOIN cards ON columns.id = cards.column_id
+            GROUP BY columns.title, columns.id, board_id
+            ORDER BY columns.id DESC
+            LIMIT 1
+        ;
+        """, {}, False)
+
+
+def get_column_by_id(column_id):
+    return data_manager.execute_query("""
+        SELECT * FROM columns c
+        WHERE c.id = %(column_id)s
+        ;
+        """, {"column_id": column_id})
+    return True
+
+
+def create_main_columns(board_id):
+    data_manager.execute_query(
+        """
+            INSERT INTO columns(title, board_id)
+            VALUES ('new', %(board_id)s),
+                    ('in progress', %(board_id)s),
+                    ('testing', %(board_id)s),
+                    ('done', %(board_id)s)
+            ;
+            """, {'board_id': board_id})
 
 
 def create_new_column(title, board_id):
@@ -146,6 +172,37 @@ def create_new_column(title, board_id):
         ;
         """, {"title": title, "board_id": board_id})
     return True
+
+
+def edit_column_title(column_id, title):
+    data_manager.execute_query("""
+        UPDATE columns
+        SET title = %(title)s
+        WHERE id = %(column_id)s
+        """, {"column_id": column_id, "title": title})
+    return True
+
+
+def delete_column(column_id):
+    data_manager.execute_query(
+        """
+            DELETE FROM columns
+            WHERE id = %(id)s
+            ;
+            """, {"id": column_id})
+    return True
+
+
+# cards
+def get_recent_card():
+    return data_manager.execute_select(
+        """
+        SELECT *
+        FROM cards
+        ORDER BY id DESC
+        LIMIT 1
+        ;
+        """, {}, False)
 
 
 def get_max_card_order_for_column(column_id):
@@ -172,6 +229,36 @@ def create_new_card(title, column_id):
     return True
 
 
+def edit_card_title(card_id, title):
+    data_manager.execute_query("""
+        UPDATE cards
+        SET title = %(title)s
+        WHERE id = %(card_id)s
+        """, {"card_id": card_id, "title": title})
+    return True
+
+
+def edit_card_column_by_id(card_id, column_id):
+    data_manager.execute_query("""
+        UPDATE cards
+        SET column_id = %(column_id)s
+        WHERE id = %(card_id)s
+        """, {"card_id": card_id, "column_id": column_id})
+    return True
+
+
+def delete_card(card_id):
+    data_manager.execute_query(
+        """
+            DELETE FROM cards
+            WHERE id = %(id)s
+            ;
+            """, {"id": card_id})
+    return True
+
+# users
+
+
 def get_user_by_username(username):
     user = data_manager.execute_select(
         """
@@ -190,69 +277,4 @@ def create_user(username, password):
         VALUES (%(username)s, %(password)s)
         ;
         """, {"username": username, "password": password})
-    return True
-
-
-def edit_board_title(board_id, title):
-    data_manager.execute_query("""
-        UPDATE boards
-        SET title = %(title)s
-        WHERE id = %(board_id)s
-        """, {"board_id": board_id, "title": title})
-    return True
-
-
-def edit_column_title(column_id, title):
-    data_manager.execute_query("""
-        UPDATE columns
-        SET title = %(title)s
-        WHERE id = %(column_id)s
-        """, {"column_id": column_id, "title": title})
-    return True
-
-
-def edit_card_title(card_id, title):
-    data_manager.execute_query("""
-        UPDATE cards
-        SET title = %(title)s
-        WHERE id = %(card_id)s
-        """, {"card_id": card_id, "title": title})
-    return True
-
-
-def edit_card_column_id(card_id, column_id):
-    data_manager.execute_query("""
-        UPDATE cards
-        SET column_id = %(column_id)s
-        WHERE id = %(card_id)s
-        """, {"card_id": card_id, "column_id": column_id})
-    return True
-
-
-def get_column_id(column_id):
-    return data_manager.execute_query("""
-        SELECT * FROM columns c
-        WHERE c.id = %(column_id)s
-        ;
-        """, {"column_id": column_id})
-    return True
-
-
-def delete_column(column_id):
-    data_manager.execute_query(
-        """
-            DELETE FROM columns
-            WHERE id = %(id)s
-            ;
-            """, {"id": column_id})
-    return True
-
-
-def delete_card(card_id):
-    data_manager.execute_query(
-        """
-            DELETE FROM cards
-            WHERE id = %(id)s
-            ;
-            """, {"id": card_id})
     return True
