@@ -7,7 +7,6 @@ import { columnsManager } from "./columnManager.js";
 export let boardsManager = {
     loadBoards: async function () {
         const boards = await dataHandler.getBoards();
-        console.log(boards);
         for (let board of boards) {
             this.createBoardElement(board);
         }
@@ -25,7 +24,9 @@ export let boardsManager = {
             (event) => editBoardTitle(event));
         domManager.addEventListener(`.delete-board[data-board-id="${board.board_id}"]`, "click",
             (event) => deleteBoard(event));
-        columnsManager.loadColumns(board.columns);
+        if (board.columns) {
+            columnsManager.loadColumns(board.columns);
+        }
     },
     showEditButton: function (event) {
         const button = event.target.nextElementSibling;
@@ -47,8 +48,8 @@ function showBoardForm() {
 async function createNewBoard() {
     document.querySelector('.titleForm').style.visibility = 'hidden';
     let title = document.querySelector('#title');
-    await dataHandler.createNewBoard(title.value);
-    const newBoard = await dataHandler.getRecentBoard();
+    const newBoard = await dataHandler.createNewBoard(title.value);
+    newBoard['board_id'] = newBoard.id;
     boardsManager.createBoardElement(newBoard);
 }
 

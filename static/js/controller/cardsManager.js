@@ -28,8 +28,7 @@ export let cardsManager = {
 
     addCard: async function (event) {
         let columnId = event.target.dataset.columnId;
-        await dataHandler.createNewCard('unnamed', columnId);
-        const newCard = await dataHandler.getRecentCard();
+        const newCard = await dataHandler.createNewCard('unnamed', columnId);
         this.createCardElement(newCard);
     },
 

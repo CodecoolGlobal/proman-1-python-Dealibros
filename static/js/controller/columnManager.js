@@ -27,13 +27,14 @@ export let columnsManager = {
         domManager.addEventListener(`.cards-container[data-column-id="${column.id}"]`, 'drop', (event) => handleDrop(event));
         domManager.addEventListener(`.cards-container[data-column-id="${column.id}"]`, 'dragenter', (event) => handleDragEnter(event));
         domManager.addEventListener(`.cards-container[data-column-id="${column.id}"]`, 'dragleave', (event) => handleDragLeave(event));
-        cardsManager.loadCards(column.cards);
+        if (column.cards) {
+            cardsManager.loadCards(column.cards);
+        }
     },
-    createNewColumn: async function(event) {
+    createNewColumn: async function (event) {
         const boardId = event.target.dataset.boardId;
         const title = "unnamed"
-        await dataHandler.createNewColumn(title, boardId);
-        const newColumn = await dataHandler.getRecentColumn();
+        const newColumn = await dataHandler.createNewColumn(title, boardId);
         this.createColumnElement(newColumn, boardId);
     }
 };
@@ -57,9 +58,9 @@ function handleDragOver(event) {
     event.preventDefault();
 }
 
-function handleDragEnter(e) {}
+function handleDragEnter(e) { }
 
-function handleDragLeave(e) {}
+function handleDragLeave(e) { }
 
 function handleDrop(e) {
     e.preventDefault();

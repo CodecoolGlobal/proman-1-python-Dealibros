@@ -61,45 +61,26 @@ def get_board_by_id(board_id):
         {'board_id': board_id}, False)
 
 
-def get_recent_board(user_id=None):
-    return data_manager.execute_select(
-        """
-            SELECT boards.id as board_id, boards.title, boards.user_id,
-            JSON_AGG(column_table) as columns
-            FROM boards
-            LEFT JOIN (
-                SELECT board_id, columns.title, columns.id, JSON_AGG(cards ORDER BY cards.card_order) as cards
-                FROM columns
-                LEFT JOIN cards ON columns.id = cards.column_id
-                GROUP BY columns.title, columns.id, board_id
-                ORDER BY columns.id
-                )
-            as column_table on boards.id = column_table.board_id
-            GROUP BY boards.id, boards.title, boards.user_id
-            ORDER BY boards.id DESC
-            LIMIT 1
-            ;
-            """, {}, False)
-
-
 def create_new_board(title, user_id=None):
     if user_id:
-        data_manager.execute_query(
+        board = data_manager.execute_select(
             """
             INSERT INTO boards(title, user_id)
             VALUES (%(title)s, %(user_id)s)
+            RETURNING *
             ;
-            """, {"title": title, 'user_id': user_id})
+            """, {"title": title, 'user_id': user_id}, False)
     else:
-        data_manager.execute_query(
+        board = data_manager.execute_select(
             """
             INSERT INTO boards(title)
             VALUES (%(title)s)
+            RETURNING *
             ;
-            """, {"title": title})
-    board = get_recent_board()
-    create_main_columns_by_board_id(board.get('board_id'))
-    return True
+            """, {"title": title}, False)
+    columns = create_main_columns_by_board_id(board.get('id'))
+    board["columns"] = columns
+    return board
 
 
 def delete_board(board_id, user_id=None):
@@ -129,40 +110,27 @@ def edit_board_title(board_id, title):
 
 
 # columns
-def get_recent_column():
-    return data_manager.execute_select(
-        """
-            SELECT board_id, columns.title, columns.id,
-            JSON_AGG(cards ORDER BY cards.card_order) as cards
-            FROM columns
-            LEFT JOIN cards ON columns.id = cards.column_id
-            GROUP BY columns.title, columns.id, board_id
-            ORDER BY columns.id DESC
-            LIMIT 1
-        ;
-        """, {}, False)
-
-
 def create_main_columns_by_board_id(board_id):
-    data_manager.execute_query(
+    return data_manager.execute_select(
         """
             INSERT INTO columns(title, board_id)
             VALUES ('new', %(board_id)s),
                     ('in progress', %(board_id)s),
                     ('testing', %(board_id)s),
                     ('done', %(board_id)s)
+            RETURNING *
             ;
             """, {'board_id': board_id})
 
 
 def create_new_column(title, board_id):
-    data_manager.execute_query(
+    return data_manager.execute_select(
         """
         INSERT INTO columns(title, board_id)
         VALUES (%(title)s, %(board_id)s)
+        RETURNING *
         ;
-        """, {"title": title, "board_id": board_id})
-    return True
+        """, {"title": title, "board_id": board_id}, False)
 
 
 def edit_column_title(column_id, title):
@@ -185,17 +153,6 @@ def delete_column(column_id):
 
 
 # cards
-def get_recent_card():
-    return data_manager.execute_select(
-        """
-        SELECT *
-        FROM cards
-        ORDER BY id DESC
-        LIMIT 1
-        ;
-        """, {}, False)
-
-
 def get_max_card_order_for_column(column_id):
     max_order = data_manager.execute_select(
         """
@@ -211,13 +168,13 @@ def create_new_card(title, column_id):
     max_card_order = get_max_card_order_for_column(column_id).get('max')
     if not max_card_order:
         max_card_order = 1
-    data_manager.execute_query(
+    return data_manager.execute_select(
         """
         INSERT INTO cards(title, column_id, card_order)
         VALUES (%(title)s, %(column_id)s, %(card_order)s)
+        RETURNING *
         ;
-        """, {"title": title, 'column_id': column_id, 'card_order': max_card_order+1})
-    return True
+        """, {"title": title, 'column_id': column_id, 'card_order': max_card_order+1}, False)
 
 
 def edit_card_title(card_id, title):

@@ -3,9 +3,6 @@ export let dataHandler = {
     getBoards: async function () {
         return await apiGet("/api/boards");
     },
-    getRecentBoard: async function () {
-        return await apiGet(`/api/boards/recent`);
-    },
     createNewBoard: async function (boardTitle) {
         return await apiPost('/api/boards', { title: boardTitle });
     },
@@ -16,9 +13,6 @@ export let dataHandler = {
         return await apiDelete(`/api/boards/${boardId}`);
     },
     // columns
-    getRecentColumn: async function () {
-        return await apiGet(`/api/columns/recent`);
-    },
     createNewColumn: async function (title, board_id) {
         return await apiPost('/api/columns', { title: title, board_id: board_id });
     },
@@ -29,9 +23,6 @@ export let dataHandler = {
         return await apiDelete(`/api/columns/${columnId}`, { columnId: columnId });
     },
     // cards
-    getRecentCard: async function () {
-        return await apiGet(`/api/cards/recent`);
-    },
     createNewCard: async function (cardTitle, columnId) {
         return await apiPost(`/api/cards/${columnId}`, { title: cardTitle })
     },
@@ -67,7 +58,7 @@ async function apiPost(url, payload) {
         })
 
         if (response.ok) {
-            return 'ok'
+            return await response.json();
         }
     }
     catch (err) { return err }

@@ -37,12 +37,6 @@ def get_boards():
     return data
 
 
-@app.route("/api/boards/recent", methods=["GET"])
-def get_recent_board():
-    data = queries.get_recent_board()
-    return data
-
-
 @app.route('/api/boards', methods=['POST'])
 def create_new_board():
     board = request.get_json()
@@ -52,7 +46,7 @@ def create_new_board():
     else:
         added_board = queries.create_new_board(board.get('title'))
     if added_board:
-        response = make_response(jsonify({"message": "ok"}), 200)
+        response = make_response(jsonify(added_board), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
     return response
@@ -86,20 +80,13 @@ def delete_board(board_id):
 
 
 # columns
-@app.route('/api/columns/recent', methods=['GET'])
-@json_response
-def get_recent_column():
-    column = queries.get_recent_column()
-    return column
-
-
 @app.route('/api/columns', methods=['POST'])
 def create_new_column():
     column = request.get_json()
     new_column = queries.create_new_column(
         column.get('title'), column.get('board_id'))
     if new_column:
-        response = make_response(jsonify({"message": "ok"}), 200)
+        response = make_response(jsonify(new_column), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
     return response
@@ -127,19 +114,12 @@ def delete_column(column_id):
 
 
 # cards
-@app.route('/api/cards/recent', methods=['GET'])
-@json_response
-def get_recent_card():
-    column = queries.get_recent_card()
-    return column
-
-
 @app.route('/api/cards/<int:column_id>', methods=['POST'])
 def create_new_card(column_id):
     card = request.get_json()
-    create_new_card = queries.create_new_card(card.get('title'), column_id)
+    new_card = queries.create_new_card(card.get('title'), column_id)
     if create_new_card:
-        response = make_response(jsonify({"message": "ok"}), 200)
+        response = make_response(jsonify(new_card), 200)
     else:
         response = make_response(jsonify({"message": "internal error"}), 500)
     return response
