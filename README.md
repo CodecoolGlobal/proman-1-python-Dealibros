@@ -28,3 +28,6 @@ Practical scrum-board, where you and your team can add, delete and edit boards, 
 
 #### Accessing the app
  The site will now be available on http://localhost:5000. 
+
+
+![Alt text](screenshot_app.png "Proman")
