@@ -1,33 +1,66 @@
+
 # PROMAN
-## Description
 
-Practical scrum-board, where you and your team can add, delete and edit boards, columns and cards.
-
-## Getting Started
-### Dependencies
-
-    - python3
-    - pip
-    - postgresql
-
-### Prepare environment
-    - create a database (createdb {name_of_the_database})
-    - export variables:
-      - MY_PSQL_DBNAME (name your database however you like, don't forget to create it!)
-      - MY_PSQL_HOST (usually localhost, if you are running it on your machine)
-      - MY_PSQL_USER
-      - MY_PSQL_PASSWORD
-
-#### Installing
-
-    Download the repository, 
-    run 'pip install -r requirements.txt' to install
-    dependencies in your virtual environment.
-    and run 'python3 main.py' in the shell.
+Practical scrum-board, where you and your team can add, delete and edit boards, columns and cards. 
 
 
-#### Accessing the app
- The site will now be available on http://localhost:5000. 
+## Dependencies
+
+- python3, pip
+- postgres
 
 
-![Alt text](screenshot_app.png "Proman")
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/CodecoolGlobal/proman-1-python-Dealibros
+```
+
+Go to the project directory
+
+```bash
+  cd proman-1-python-Dealibros
+```
+
+Install dependencies (virtual enviroment recommended)
+
+```bash
+  cd frontend/day-to-day-planner
+  pip install -r requirements.txt
+```
+
+Start the flask app: 
+
+```bash
+  python3 main.py
+```
+
+The app is now running on port 5000. 
+
+## Authors
+
+- [@Damos222](https://github.com/Damos222)
+- [@Dealibros](https://github.com/Dealibros)
+- [@dorianamaria96](https://github.com/dorianamaria96)
+- [@IkaPata](https://github.com/IkaPata)
+- [@RaffaelBoda](https://github.com/RaffaelBoda)
+- [@shirelkatz](https://github.com/shirelkatz)
+
+
+## Screenshots
+
+![App Screenshot](screenshot_app.png)
+
+
+## Roadmap
+
+- [x]  Setup project
+- [x]  Create / delete / edit boards
+- [x]  Create / delete / edit columns
+- [x]  Create / delete / edit cards
+- [x]  Change the order of the cards
+- [x]  User Registration, Login, Logout
+- [x]  Public and private boards
+
