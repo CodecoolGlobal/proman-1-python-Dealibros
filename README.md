@@ -9,6 +9,18 @@ Practical scrum-board, where you and your team can add, delete and edit boards, 
 - python3, pip
 - postgres
 
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file:
+
+`MY_PSQL_DBNAME`
+
+`MY_PSQL_HOST` (if run locally, just localhost)
+
+`MY_PSQL_USER`
+
+`MY_PSQL_PASSWORD`
+
 
 ## Run Locally
 
