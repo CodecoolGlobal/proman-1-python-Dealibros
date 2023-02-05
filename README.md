@@ -55,13 +55,14 @@ The app is now running on port 5000.
 
 - [@Damos222](https://github.com/Damos222)
 - [@Dealibros](https://github.com/Dealibros)
+- [@derfabio](https://github.com/derfabio)
 - [@dorianamaria96](https://github.com/dorianamaria96)
 - [@IkaPata](https://github.com/IkaPata)
 - [@RaffaelBoda](https://github.com/RaffaelBoda)
 - [@shirelkatz](https://github.com/shirelkatz)
 
 
-## Screenshots
+## Screenshot
 
 ![App Screenshot](screenshot_app.png)
 
